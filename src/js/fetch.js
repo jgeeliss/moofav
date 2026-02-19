@@ -1,10 +1,16 @@
 
 // Fetch from IMDB API
+
+// Keep a stack of next-page tokens to support previous/next navigation
+let imdbPageTokenStack = [];
+
 export const fetchIMDBData = (element, nextPageToken = null) => {
   let url = 'https://api.imdbapi.dev/titles';
+
   if (nextPageToken) {
     url += `?pageToken=${nextPageToken}`;
   }
+
   fetch(url)
     .then(response => response.json())
     .then(data => {
@@ -40,17 +46,36 @@ export const fetchIMDBData = (element, nextPageToken = null) => {
           </table>
         `;
 
+        // Add previous button if there are tokens in the stack
+        if (imdbPageTokenStack.length > 0) {
+          html += `<button id="prev-button" style="margin:1em 0 1em 0.5em;">Previous</button>`;
+        }
         // Add next button if nextPageToken exists
         if (data.nextPageToken) {
-          html += `<button id="next-button" style="margin:1em 0;">Next</button>`;
+          html += `<button id="next-button" style="margin:1em 0 1em 0.5em;">Next</button>`;
         }
         element.innerHTML = html;
 
-        // Add event listener for next button
+        // Add event listeners for navigation buttons
         if (data.nextPageToken) {
           const nextBtn = document.getElementById('next-button');
           if (nextBtn) {
-            nextBtn.onclick = () => fetchIMDBData(element, data.nextPageToken);
+            nextBtn.onclick = () => {
+              // add next page to the stack and go to next page
+              imdbPageTokenStack.push(data.nextPageToken);
+              fetchIMDBData(element, data.nextPageToken);
+            }
+          }
+        }
+        if (imdbPageTokenStack.length > 0) {
+          const prevBtn = document.getElementById('prev-button');
+          if (prevBtn) {
+            prevBtn.onclick = () => {
+              // Pop the current token, then use the new top as previous
+              imdbPageTokenStack.pop();
+              const previousPageToken = imdbPageTokenStack[imdbPageTokenStack.length - 1] || null;
+              fetchIMDBData(element, previousPageToken);
+            }
           }
         }
       } else {
