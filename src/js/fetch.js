@@ -13,13 +13,13 @@ export const fetchIMDBData = (element) => {
             <td>${title.startYear || ''}</td>
             <td>${title.genres ? title.genres.join(', ') : ''}</td>
             <td>${title.rating?.aggregateRating || ''}</td>
-            <td>${title.plot}</td>
+            <td>${title.plot ? title.plot.substring(0, 100) + (title.plot.length > 100 ? '...' : '') : ''}</td>
           </tr>
         `).join(''); // needed to join the array of movie rows into a single string
 
         // insert all movie rows into the table
         element.innerHTML = `
-          <table border="1">
+          <table border="1" style="border-collapse:collapse;width:100%;font-size:0.95em;">
             <thead>
               <tr>
                 <th>Image</th>
@@ -36,10 +36,11 @@ export const fetchIMDBData = (element) => {
           </table>
         `;
       } else {
+        // for debugging purposes:
         element.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
       }
     })
     .catch(error => {
-      element.innerHTML = `Error fetching IMDB data: ${error}`;
+      element.innerHTML = `<span style="color:red;">Error fetching IMDB data: ${error}</span>`;
     });
 }
