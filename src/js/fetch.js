@@ -1,7 +1,11 @@
 
 // Fetch from IMDB API
-export const fetchIMDBData = (element) => {
-  fetch('https://api.imdbapi.dev/titles')
+export const fetchIMDBData = (element, nextPageToken = null) => {
+  let url = 'https://api.imdbapi.dev/titles';
+  if (nextPageToken) {
+    url += `?pageToken=${encodeURIComponent(nextPageToken)}`;
+  }
+  fetch(url)
     .then(response => response.json())
     .then(data => {
       if (data && Array.isArray(data.titles)) {
@@ -35,6 +39,14 @@ export const fetchIMDBData = (element) => {
             </tbody>
           </table>
         `;
+
+        // Add event listener for next button
+        if (data.nextPageToken) {
+          const nextBtn = document.getElementById('next-button');
+          if (nextBtn) {
+            nextBtn.onclick = () => fetchIMDBData(element, data.nextPageToken);
+          }
+        }
       } else {
         // for debugging purposes:
         element.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
