@@ -3,7 +3,7 @@
 export const fetchIMDBData = (element, nextPageToken = null) => {
   let url = 'https://api.imdbapi.dev/titles';
   if (nextPageToken) {
-    url += `?pageToken=${encodeURIComponent(nextPageToken)}`;
+    url += `?pageToken=${nextPageToken}`;
   }
   fetch(url)
     .then(response => response.json())
@@ -22,7 +22,7 @@ export const fetchIMDBData = (element, nextPageToken = null) => {
         `).join(''); // needed to join the array of movie rows into a single string
 
         // insert all movie rows into the table
-        element.innerHTML = `
+        let html = `
           <table border="1" style="border-collapse:collapse;width:100%;font-size:0.95em;">
             <thead>
               <tr>
@@ -39,6 +39,12 @@ export const fetchIMDBData = (element, nextPageToken = null) => {
             </tbody>
           </table>
         `;
+
+        // Add next button if nextPageToken exists
+        if (data.nextPageToken) {
+          html += `<button id="next-button" style="margin:1em 0;">Next</button>`;
+        }
+        element.innerHTML = html;
 
         // Add event listener for next button
         if (data.nextPageToken) {
