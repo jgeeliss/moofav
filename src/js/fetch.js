@@ -7,33 +7,16 @@ let imdbPageTokenStack = [];
 // Render function for api data
 function renderIMDBData(element, data) {
   if (data && Array.isArray(data.titles)) {
-    const allMovieRows = data.titles.map(title => `
-      <tr>
-        <td><img src="${title.primaryImage?.url || ''}" alt="${title.primaryTitle}" style="max-width:60px;max-height:80px;"></td>
-        <td>${title.primaryTitle || ''}</td>
-        <td>${title.startYear || ''}</td>
-        <td>${title.genres ? title.genres.join(', ') : ''}</td>
-        <td>${title.rating?.aggregateRating || ''}</td>
-        <td>${title.plot ? title.plot.substring(0, 100) + (title.plot.length > 100 ? '...' : '') : ''}</td>
-      </tr>
-    `).join('');
+    // Show only movie images in a flex container
+    const images = data.titles.map(title => {
+      const imgUrl = title.primaryImage?.url;
+      return imgUrl ? `<div class="movie-img"><img src="${imgUrl}" style="width:120px;height:180px;"></div>` : '';
+    }).join('');
 
     let html = `
-      <table border="1" style="border-collapse:collapse;width:100%;font-size:0.95em;">
-        <thead>
-          <tr>
-            <th>Image</th>
-            <th>Title</th>
-            <th>Year</th>
-            <th>Genres</th>
-            <th>Rating</th>
-            <th>Plot</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${allMovieRows}
-        </tbody>
-      </table>
+      <div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center;align-items:flex-start;">
+        ${images}
+      </div>
     `;
 
     if (imdbPageTokenStack.length > 0) {
