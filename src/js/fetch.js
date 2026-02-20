@@ -4,13 +4,37 @@
 // Keep a stack of next-page tokens to support previous/next navigation
 let imdbPageTokenStack = [];
 
+// Helper to show popup
+function showMoviePopup(movie) {
+  // first remove existing popup!
+  const existingPopup = document.getElementById('movie-popup');
+  if (existingPopup) {
+    existingPopup.remove();
+  }
+  const popup = document.createElement('div');
+  popup.id = 'movie-popup';
+  popup.innerHTML = `
+    <div style="text-align:center">
+      <img src="${movie.primaryImage?.url || ''}" alt="${movie.primaryTitle}" style="max-width:120px;max-height:160px;">
+      <h2>${movie.primaryTitle || ''}</h2>
+      <p><strong>Year:</strong> ${movie.startYear || ''}</p>
+      <p><strong>Genres:</strong> ${movie.genres ? movie.genres.join(', ') : ''}</p>
+      <p><strong>Rating:</strong> ${movie.rating?.aggregateRating || ''}</p>
+      <p><strong>Plot:</strong> ${movie.plot || ''}</p>
+      <button id="close-popup-button" style="margin-top:1em;padding:0.5em 2em;">Close</button>
+    </div>
+  `;
+  document.body.appendChild(popup);
+  document.getElementById('close-popup-button').onclick = () => popup.remove();
+}
+
 // Render function for api data
 function renderIMDBData(element, data) {
   if (data && Array.isArray(data.titles)) {
     // Show only movie images in a flex container
     const images = data.titles.map(title => {
       const imgUrl = title.primaryImage?.url;
-      return imgUrl ? `<div class="movie-img"><img src="${imgUrl}" style="width:120px;height:180px;"></div>` : '';
+      return imgUrl ? `<div class="movie-img" id=${title.id}><img src="${imgUrl}" style="width:120px;height:180px;"></div>` : '';
     }).join('');
 
     let html = `
@@ -26,6 +50,16 @@ function renderIMDBData(element, data) {
       html += `<button id="next-button" style="margin:1em 0 1em 0.5em;">Next</button>`;
     }
     element.innerHTML = html;
+
+    // Add click event to all of the movie images
+    document.querySelectorAll('.movie-img').forEach(img => {
+      img.addEventListener('click', function () {
+        // get id from element
+        const movieId = this.getAttribute('id');
+        const movie = data.titles.find(title => title.id === movieId);
+        showMoviePopup(movie);
+      });
+    });
 
     // Add event listeners for navigation buttons
     if (data.nextPageToken) {
