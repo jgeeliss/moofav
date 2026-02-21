@@ -65,7 +65,6 @@ document.querySelector('#genre-select').addEventListener('change', (e) => {
   // reset page to 1 on genre change
   currentPage = 1;
   hasMorePagesToLoad = true;
-  movieContainer.innerHTML = '';
   fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating);
 });
 
@@ -73,7 +72,6 @@ document.querySelector('#year-select').addEventListener('change', (e) => {
   selectedYear = e.target.value || null;
   currentPage = 1;
   hasMorePagesToLoad = true;
-  movieContainer.innerHTML = '';
   fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating);
 });
 
@@ -81,7 +79,6 @@ document.querySelector('#rating-select').addEventListener('change', (e) => {
   selectedRating = e.target.value || null;
   currentPage = 1;
   hasMorePagesToLoad = true;
-  movieContainer.innerHTML = '';
   fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating);
 });
 

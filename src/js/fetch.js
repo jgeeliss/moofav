@@ -59,11 +59,14 @@ function renderIMDBData(element, data, genres) {
     // Get or create movie matrix
     let movieMatrix = element.querySelector('#movie-matrix');
 
-    // start from scratch if no movie matrix yet
+    // start from scratch if no movie matrix
     if (!movieMatrix) {
       const html = `<div id="movie-matrix">${images}</div>`;
       element.innerHTML = html;
       movieMatrix = element.querySelector('#movie-matrix');
+    // on first page (=filter change) only replace the old images with the new ones 
+    } else if (data.page === 1) {
+      movieMatrix.innerHTML = images;
     } else {
       // insertAdjacentHTML adds the new HTML without removing existing content
       movieMatrix.insertAdjacentHTML('beforeend', images);

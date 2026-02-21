@@ -66,3 +66,33 @@ I can see the issue. The .movie-img class has max-height: 100% which doesn't enf
 Edited
 style.css+2-2
 Fixed! Changed from max-width and max-height to fixed width and height with a 2:3 aspect ratio (16vw × 24vw), which is typical for movie posters. The object-fit: cover ensures images fill the space even if they have slightly different dimensions.
+
+
+Q: when changing a filter, the entire movie container refreshes on insertAdjacentHTML, instead of only the movies
+
+A: Looking at the code, the issue is that insertAdjacentHTML always appends new content to existing movies. When you change a filter, you want to replace the movies, not append to them. Currently, this only happens correctly when there's no movie matrix yet.
+
+The fix is to check if this is page 1 (a new search/filter) and clear the existing movies before displaying the filtered results:
+
+Edited
+fetch.js+3-3
+Edited
+fetch.js+1-1
+Fixed! Now when you change a filter, the movie matrix will append the new page to the movie container and show only the filtered results (since filters trigger a new search starting at page 1). The insertAdjacentHTML will only append movies when loading additional pages (page 2, 3, etc.) for pagination.
+
+
+Q: when page===1 it should only reload the images, but it refreshes the entire page
+
+A: I'll examine the fetch.js file to understand the issue with the page refresh.
+
+I can see the issue. When page === 1, the code at fetch.js:68-70 replaces the images correctly, but the problem is likely that somewhere else in the code, the entire page is being refreshed. Let me check the main.js file to see how fetchIMDBData is being called:
+
+main.js
+
+I found the issue! In main.js:68-70, when the dropdowns change, the code is setting movieContainer.innerHTML = '' which clears the entire container before calling fetchIMDBData with page = 1. This is causing the page to refresh completely.
+
+The fix is simple: remove the movieContainer.innerHTML = '' line from the dropdown event listeners. The renderIMDBData function already handles replacing the images when page === 1.
+
+Edited
+main.js+0-3
+Fixed! I removed the movieContainer.innerHTML = '' lines from all three dropdown event listeners in main.js. Now when page === 1, the renderIMDBData function will only replace the images inside the #movie-matrix div instead of clearing the entire container, which should eliminate the page refresh effect.
