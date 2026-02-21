@@ -35,6 +35,10 @@ h1 {
   line-height: 1.1;
 }
 
+label {
+   margin-left: 1em;
+}
+
 #movie-popup {
   position: fixed;
   top: 50%;
@@ -45,6 +49,10 @@ h1 {
   padding: 2em;
   border-radius: 8px;
   text-align: center;
+}
+
+#movie-container {
+  margin-top: 2em;
 }
 
 #movie-matrix {

@@ -4,17 +4,17 @@ import { fetchIMDBData, getMovieGenres } from './js/fetch.js'
 document.querySelector('#app').innerHTML = `
   <div>
     <h1>MooFav, your favorite movies & TV shows</h1>
-    <div style="margin-top:1em;">
+    <div>
       <label for="genre-select">Genre: </label>
       <select id="genre-select">
         <option value="">All Genres</option>
       </select>
-      <label for="year-select" style="margin-left:1em;">Year: </label>
+      <label for="year-select">Year: </label>
       <select id="year-select">
         <option value="">All Years</option>
       </select>
     </div>
-    <div id="movie-container" style="margin-top:2em;"></div>
+    <div id="movie-container"></div>
   </div>
 `
 
