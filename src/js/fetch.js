@@ -95,12 +95,13 @@ function renderIMDBData(element, data, genres, genre, year) {
   }
 }
 
-export const fetchIMDBData = (element, page = 1, genres, genre = null, year = null) => {
+export const fetchIMDBData = (element, page = 1, genres, genre = null, year = null, rating = null) => {
   let url = 'https://api.themoviedb.org/3/discover/movie?api_key=0f0bf386975247347f8ced16ab3804e7';
 
   page && (url += `&page=${page}`);
   genre && (url += `&with_genres=${genre}`);
   year && (url += `&primary_release_year=${year}`);
+  rating && (url += `&vote_average.gte=${rating}`);
 
   fetch(url)
     .then(response => response.json())

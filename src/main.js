@@ -13,6 +13,10 @@ document.querySelector('#app').innerHTML = `
       <select id="year-select">
         <option value="">All Years</option>
       </select>
+      <label for="rating-select">Rating: </label>
+      <select id="rating-select">
+        <option value="">All Ratings</option>
+      </select>
     </div>
     <div id="movie-container"></div>
   </div>
@@ -38,19 +42,34 @@ for (let year = currentYear; year >= 1900; year--) {
   yearSelect.appendChild(option);
 }
 
+// Populate minimum rating dropdown (6 to 9)
+const ratingSelect = document.querySelector('#rating-select');
+for (let rating = 6; rating <= 9; rating++) {
+  const option = document.createElement('option');
+  option.value = rating;
+  option.textContent = `${rating}+`;
+  ratingSelect.appendChild(option);
+}
+
 // Add event listeners for dropdowns
 const movieContainer = document.querySelector('#movie-container');
 let selectedGenre = null;
 let selectedYear = null;
+let selectedRating = null;
 
 document.querySelector('#genre-select').addEventListener('change', (e) => {
   selectedGenre = e.target.value || null;
-  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear);
+  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating);
 });
 
 document.querySelector('#year-select').addEventListener('change', (e) => {
   selectedYear = e.target.value || null;
-  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear);
+  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating);
+});
+
+document.querySelector('#rating-select').addEventListener('change', (e) => {
+  selectedRating = e.target.value || null;
+  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating);
 });
 
 // Initial fetch
