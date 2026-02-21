@@ -14,14 +14,14 @@ function showMoviePopup(movie) {
   const popup = document.createElement('div');
   popup.id = 'movie-popup';
   popup.innerHTML = `
-    <div style="text-align:center">
-      <img src="${movie.primaryImage?.url || ''}" alt="${movie.primaryTitle}" style="max-width:120px;max-height:160px;">
+    <div id="movie-popup-container">
+      <img id="movie-popup-image" src="${movie.primaryImage?.url || ''}" alt="${movie.primaryTitle}">
       <h2>${movie.primaryTitle || ''}</h2>
       <p><strong>Year:</strong> ${movie.startYear || ''}</p>
       <p><strong>Genres:</strong> ${movie.genres ? movie.genres.join(', ') : ''}</p>
       <p><strong>Rating:</strong> ${movie.rating?.aggregateRating || ''}</p>
       <p><strong>Plot:</strong> ${movie.plot || ''}</p>
-      <button id="close-popup-button" style="margin-top:1em;padding:0.5em 2em;">Close</button>
+      <button id="close-popup-button" class="nav-button">Close</button>
     </div>
   `;
   document.body.appendChild(popup);
@@ -34,20 +34,20 @@ function renderIMDBData(element, data) {
     // Show only movie images in a flex container
     const images = data.titles.map(title => {
       const imgUrl = title.primaryImage?.url;
-      return imgUrl ? `<div class="movie-img" id=${title.id}><img src="${imgUrl}" style="width:120px;height:180px;"></div>` : '';
+      return imgUrl ? `<div><img id="${title.id}" class="movie-img" src="${imgUrl}" alt="${title.primaryTitle}"></div>` : '';
     }).join('');
 
     let html = `
-      <div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center;align-items:flex-start;">
+      <div id="movie-matrix">
         ${images}
       </div>
     `;
 
     if (imdbPageTokenStack.length > 0) {
-      html += `<button id="prev-button" style="margin:1em 0 1em 0.5em;">Previous</button>`;
+      html += `<button class="nav-button" id="prev-button">Previous</button>`;
     }
     if (data.nextPageToken) {
-      html += `<button id="next-button" style="margin:1em 0 1em 0.5em;">Next</button>`;
+      html += `<button class="nav-button" id="next-button">Next</button>`;
     }
     element.innerHTML = html;
 
@@ -98,6 +98,6 @@ export const fetchIMDBData = (element, nextPageToken = null) => {
       renderIMDBData(element, data);
     })
     .catch(error => {
-      element.innerHTML = `<span style="color:red;">Error fetching IMDB data: ${error}</span>`;
+      element.innerHTML = `<span class="error-msg">Error fetching IMDB data: ${error}</span>`;
     });
 }

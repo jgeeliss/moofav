@@ -47,6 +47,41 @@ h1 {
   text-align: center;
 }
 
+#movie-matrix {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.movie-img {
+  width: 120px;
+  height: 160px;
+  object-fit: cover;
+}
+
+.movie-img:hover {
+  cursor: pointer;
+}
+
+#movie-popup-container {
+  text-align: center;
+}
+
+#movie-popup-image {
+   max-width: 120px;
+   max-height: 160px;
+}
+
+.nav-button {
+  margin: 1em 0 1em 0.5em;
+}
+
+.error-msg {
+  color: red;
+}
+
 #app {
   max-width: 1280px;
   margin: 0 auto;
