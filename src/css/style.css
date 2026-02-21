@@ -59,13 +59,13 @@ label {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: flex-start;
 }
 
 .movie-img {
-  max-width: 16vw;
-  max-height: 21vw;
+  width: 16vw;
+  height: 24vw;
   object-fit: cover;
   background-color: #213547;
 }

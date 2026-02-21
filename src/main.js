@@ -56,21 +56,59 @@ const movieContainer = document.querySelector('#movie-container');
 let selectedGenre = null;
 let selectedYear = null;
 let selectedRating = null;
+let currentPage = 1;
+let hasMorePagesToLoad = true;
+let isLoading = false;
 
 document.querySelector('#genre-select').addEventListener('change', (e) => {
   selectedGenre = e.target.value || null;
+  // reset page to 1 on genre change
+  currentPage = 1;
+  hasMorePagesToLoad = true;
+  movieContainer.innerHTML = '';
   fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating);
 });
 
 document.querySelector('#year-select').addEventListener('change', (e) => {
   selectedYear = e.target.value || null;
+  currentPage = 1;
+  hasMorePagesToLoad = true;
+  movieContainer.innerHTML = '';
   fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating);
 });
 
 document.querySelector('#rating-select').addEventListener('change', (e) => {
   selectedRating = e.target.value || null;
+  currentPage = 1;
+  hasMorePagesToLoad = true;
+  movieContainer.innerHTML = '';
   fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating);
 });
 
+// Infinite scroll listener
+window.addEventListener('scroll', () => {
+  // don't load more if already loading or no more pages to load
+  if (isLoading || !hasMorePagesToLoad) return;
+  
+  // scroll event listener detects when user is near bottom (500px threshold)
+  const scrollPosition = window.innerHeight + window.scrollY;
+  const threshold = document.body.offsetHeight - 500;
+  
+  if (scrollPosition >= threshold) {
+    isLoading = true;
+    currentPage++;
+    fetchIMDBData(movieContainer, currentPage, genres, selectedGenre, selectedYear, selectedRating)
+      .then((morePagesToLoad) => {
+        // loading is done, we can load some more on scroll
+        isLoading = false;
+        // update hasMorePagesToLoad based on API response
+        hasMorePagesToLoad = morePagesToLoad;
+      });
+  }
+});
+
 // Initial fetch
-fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear);
+fetchIMDBData(movieContainer, 1).then((hasMore) => {
+  isLoading = false;
+  hasMorePagesToLoad = hasMore;
+});

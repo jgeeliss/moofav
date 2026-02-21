@@ -46,49 +46,42 @@ function showMoviePopup(movie, genres) {
 }
 
 // Render function for api data
-function renderIMDBData(element, data, genres, genre, year) {
+function renderIMDBData(element, data, genres) {
   if (data && Array.isArray(data.results)) {
     // Show only movie images in a flex container
     const images = data.results.map(title => {
       if (title.poster_path) {
         const imgUrl = `https://image.tmdb.org/t/p/w500${title.poster_path}`;
         return `<div><img id="${title.id}" class="movie-img" src="${imgUrl}" alt="${title.title}"></div>`;
-        }
+      }
     }).join('');
 
-    let html = `
-      <div id="movie-matrix">
-        ${images}
-      </div>
-    `;
+    // Get or create movie matrix
+    let movieMatrix = element.querySelector('#movie-matrix');
 
-    if (data.page > 1) {
-      html += `<button class="nav-button" id="prev-button">Previous</button>`;
+    // start from scratch if no movie matrix yet
+    if (!movieMatrix) {
+      const html = `<div id="movie-matrix">${images}</div>`;
+      element.innerHTML = html;
+      movieMatrix = element.querySelector('#movie-matrix');
+    } else {
+      // insertAdjacentHTML adds the new HTML without removing existing content
+      movieMatrix.insertAdjacentHTML('beforeend', images);
     }
-    if (data.page < data.total_pages) {
-      html += `<button class="nav-button" id="next-button">Next</button>`;
-    }
-    element.innerHTML = html;
 
-    // Add click event to all of the movie images
-    document.querySelectorAll('.movie-img').forEach(img => {
-      img.addEventListener('click', function () {
-        // get id from element
-        const movieId = this.getAttribute('id');
-        const movie = data.results.find(title => title.id === parseInt(movieId));
-        showMoviePopup(movie, genres);
-      });
+    // Add click event to newly added movie images
+    const newImages = element.querySelectorAll('.movie-img');
+    newImages.forEach(img => {
+      if (!img.dataset.hasListener) {
+        img.dataset.hasListener = 'true';
+        img.addEventListener('click', function () {
+          // get id from element
+          const movieId = this.getAttribute('id');
+          const movie = data.results.find(title => title.id === parseInt(movieId));
+          showMoviePopup(movie, genres);
+        });
+      }
     });
-
-    // // Add event listeners for navigation buttons
-    const nextBtn = document.getElementById('next-button');
-    if (nextBtn) {
-      nextBtn.onclick = () => fetchIMDBData(element, data.page + 1, genre, year);
-    }
-    const prevBtn = document.getElementById('prev-button');
-    if (prevBtn) {
-      prevBtn.onclick = () => fetchIMDBData(element, data.page - 1, genre, year);
-    }
   } else {
     // for debugging purposes:
     element.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
@@ -103,12 +96,16 @@ export const fetchIMDBData = (element, page = 1, genres, genre = null, year = nu
   year && (url += `&primary_release_year=${year}`);
   rating && (url += `&vote_average.gte=${rating}`);
 
-  fetch(url)
+  return fetch(url)
     .then(response => response.json())
     .then(data => {
-      renderIMDBData(element, data, genres, genre, year);
+      // append movies to current list unless we're on the first page
+      renderIMDBData(element, data, genres);
+      const morePagesToLoad = data.page < data.total_pages;
+      return morePagesToLoad;
     })
     .catch(error => {
       element.innerHTML = `<span class="error-msg">Error fetching IMDB data: ${error}</span>`;
+      return false;
     });
 }
