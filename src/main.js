@@ -19,14 +19,13 @@ document.querySelector('#app').innerHTML = `
 `
 
 // Populate genre dropdown
-getMovieGenres().then(genres => {
-  const genreSelect = document.querySelector('#genre-select');
-  genres.forEach(genre => {
-    const option = document.createElement('option');
-    option.value = genre.id;
-    option.textContent = genre.name;
-    genreSelect.appendChild(option);
-  });
+const genres = await getMovieGenres();
+const genreSelect = document.querySelector('#genre-select');
+genres.forEach(genre => {
+  const option = document.createElement('option');
+  option.value = genre.id;
+  option.textContent = genre.name;
+  genreSelect.appendChild(option);
 });
 
 // Populate year dropdown (current year down to 1900)
@@ -46,13 +45,13 @@ let selectedYear = null;
 
 document.querySelector('#genre-select').addEventListener('change', (e) => {
   selectedGenre = e.target.value || null;
-  fetchIMDBData(movieContainer, 1, selectedGenre, selectedYear);
+  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear);
 });
 
 document.querySelector('#year-select').addEventListener('change', (e) => {
   selectedYear = e.target.value || null;
-  fetchIMDBData(movieContainer, 1, selectedGenre, selectedYear);
+  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear);
 });
 
 // Initial fetch
-fetchIMDBData(movieContainer)
+fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear);

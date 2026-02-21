@@ -14,7 +14,7 @@ export async function getMovieGenres() {
 }
 
 // Helper to show popup
-function showMoviePopup(movie) {
+function showMoviePopup(movie, genres) {
   // first remove existing popup!
   const existingPopup = document.getElementById('movie-popup');
   if (existingPopup) {
@@ -46,7 +46,7 @@ function showMoviePopup(movie) {
 }
 
 // Render function for api data
-function renderIMDBData(element, data, genre, year) {
+function renderIMDBData(element, data, genres, genre, year) {
   if (data && Array.isArray(data.results)) {
     // Show only movie images in a flex container
     const images = data.results.map(title => {
@@ -76,7 +76,7 @@ function renderIMDBData(element, data, genre, year) {
         // get id from element
         const movieId = this.getAttribute('id');
         const movie = data.results.find(title => title.id === parseInt(movieId));
-        showMoviePopup(movie);
+        showMoviePopup(movie, genres);
       });
     });
 
@@ -95,7 +95,7 @@ function renderIMDBData(element, data, genre, year) {
   }
 }
 
-export const fetchIMDBData = (element, page = 1, genre = null, year = null) => {
+export const fetchIMDBData = (element, page = 1, genres, genre = null, year = null) => {
   let url = 'https://api.themoviedb.org/3/discover/movie?api_key=0f0bf386975247347f8ced16ab3804e7';
 
   page && (url += `&page=${page}`);
@@ -105,7 +105,7 @@ export const fetchIMDBData = (element, page = 1, genre = null, year = null) => {
   fetch(url)
     .then(response => response.json())
     .then(data => {
-      renderIMDBData(element, data, genre, year);
+      renderIMDBData(element, data, genres, genre, year);
     })
     .catch(error => {
       element.innerHTML = `<span class="error-msg">Error fetching IMDB data: ${error}</span>`;
