@@ -1,8 +1,21 @@
 
 // Fetch from IMDB API
 
-// Keep a stack of next-page tokens to support previous/next navigation
-let imdbPageTokenStack = [];
+let genres = [];
+
+async function getMovieGenres() {
+  const url = 'https://api.themoviedb.org/3/genre/movie/list?api_key=0f0bf386975247347f8ced16ab3804e7';
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    genres = data.genres;
+  } catch (error) {
+    console.error('Error fetching genres:', error);
+  }
+}
+
+// Fetch genres on load
+getMovieGenres();
 
 // Helper to show popup
 function showMoviePopup(movie) {
@@ -11,16 +24,24 @@ function showMoviePopup(movie) {
   if (existingPopup) {
     existingPopup.remove();
   }
+  let genreNames = '';
+  movie.genre_ids.forEach(id => {
+    const genre = genres.find(g => g.id === id);
+    if (genre) {
+      genreNames += genre.name + ', ';
+    }
+  });
+  genreNames = genreNames.slice(0, -2); // Remove trailing comma and space
   const popup = document.createElement('div');
   popup.id = 'movie-popup';
   popup.innerHTML = `
     <div id="movie-popup-container">
-      <img id="movie-popup-image" src="${movie.primaryImage?.url || ''}" alt="${movie.primaryTitle}">
-      <h2>${movie.primaryTitle || ''}</h2>
-      <p><strong>Year:</strong> ${movie.startYear || ''}</p>
-      <p><strong>Genres:</strong> ${movie.genres ? movie.genres.join(', ') : ''}</p>
-      <p><strong>Rating:</strong> ${movie.rating?.aggregateRating || ''}</p>
-      <p><strong>Plot:</strong> ${movie.plot || ''}</p>
+      <img id="movie-popup-image" src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}">
+      <h2>${movie.title || ''}</h2>
+      <p><strong>Year:</strong> ${movie.release_date ? movie.release_date.split('-')[0] : 'n/a'}</p>
+      <p><strong>Genres:</strong> ${genreNames || 'n/a'}</p>
+      <p><strong>Rating:</strong> ${movie.vote_average || 'n/a'}</p>
+      <p><strong>Plot:</strong> ${movie.overview || 'n/a'}</p>
       <button id="close-popup-button" class="nav-button">Close</button>
     </div>
   `;
@@ -30,11 +51,11 @@ function showMoviePopup(movie) {
 
 // Render function for api data
 function renderIMDBData(element, data) {
-  if (data && Array.isArray(data.titles)) {
+  if (data && Array.isArray(data.results)) {
     // Show only movie images in a flex container
-    const images = data.titles.map(title => {
-      const imgUrl = title.primaryImage?.url;
-      return imgUrl ? `<div><img id="${title.id}" class="movie-img" src="${imgUrl}" alt="${title.primaryTitle}"></div>` : '';
+    const images = data.results.map(title => {
+      const imgUrl = `https://image.tmdb.org/t/p/w500${title.poster_path}`;
+      return imgUrl ? `<div><img id="${title.id}" class="movie-img" src="${imgUrl}" alt="${title.title}"></div>` : '';
     }).join('');
 
     let html = `
@@ -43,10 +64,10 @@ function renderIMDBData(element, data) {
       </div>
     `;
 
-    if (imdbPageTokenStack.length > 0) {
+    if (data.page > 1) {
       html += `<button class="nav-button" id="prev-button">Previous</button>`;
     }
-    if (data.nextPageToken) {
+    if (data.page < data.total_pages) {
       html += `<button class="nav-button" id="next-button">Next</button>`;
     }
     element.innerHTML = html;
@@ -56,30 +77,19 @@ function renderIMDBData(element, data) {
       img.addEventListener('click', function () {
         // get id from element
         const movieId = this.getAttribute('id');
-        const movie = data.titles.find(title => title.id === movieId);
+        const movie = data.results.find(title => title.id === parseInt(movieId));
         showMoviePopup(movie);
       });
     });
 
-    // Add event listeners for navigation buttons
-    if (data.nextPageToken) {
-      const nextBtn = document.getElementById('next-button');
-      if (nextBtn) {
-        nextBtn.onclick = () => {
-          imdbPageTokenStack.push(data.nextPageToken);
-          fetchIMDBData(element, data.nextPageToken);
-        }
-      }
+    // // Add event listeners for navigation buttons
+    const nextBtn = document.getElementById('next-button');
+    if (nextBtn) {
+      nextBtn.onclick = () => fetchIMDBData(element, data.page + 1);
     }
-    if (imdbPageTokenStack.length > 0) {
-      const prevBtn = document.getElementById('prev-button');
-      if (prevBtn) {
-        prevBtn.onclick = () => {
-          imdbPageTokenStack.pop();
-          const previousPageToken = imdbPageTokenStack[imdbPageTokenStack.length - 1] || null;
-          fetchIMDBData(element, previousPageToken);
-        }
-      }
+    const prevBtn = document.getElementById('prev-button');
+    if (prevBtn) {
+      prevBtn.onclick = () => fetchIMDBData(element, data.page - 1);
     }
   } else {
     // for debugging purposes:
@@ -87,10 +97,10 @@ function renderIMDBData(element, data) {
   }
 }
 
-export const fetchIMDBData = (element, nextPageToken = null) => {
-  let url = 'https://api.imdbapi.dev/titles';
+export const fetchIMDBData = (element, page = 1, totalPages = 1) => {
+  let url = 'https://api.themoviedb.org/3/discover/movie?api_key=0f0bf386975247347f8ced16ab3804e7';
 
-  nextPageToken && (url += `?pageToken=${nextPageToken}`);
+  page && (url += `&page=${page}`);
 
   fetch(url)
     .then(response => response.json())

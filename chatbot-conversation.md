@@ -18,3 +18,14 @@ To fix this, you should ensure that only one popup exists at a time by removing 
 Edited
 fetch.js+6-0
 The code now removes any existing popup before creating a new one, ensuring the close button always works and only one popup is present at a time. Please test the popup behavior—this should resolve the issue with popups not closing correctly. Let me know if you need further adjustments!
+
+
+fetching moviegenres doesn't work, or should be awaited
+
+Edited
+fetch.js+15-12
+Fixed! The issues were:
+
+The function wasn't returning the fetch promise
+The result wasn't being awaited, so genres was undefined
+Changed to async/await pattern and stored result in a module-level genres array that gets populated when the async function completes
