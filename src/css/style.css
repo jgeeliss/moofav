@@ -71,6 +71,11 @@ label {
   border-radius: 8px;
 }
 
+.movie-item:hover {
+  transform: translateX(5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
 .movie-img {
   width: 120px;
   height: 180px;
