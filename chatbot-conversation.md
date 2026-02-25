@@ -96,3 +96,18 @@ The fix is simple: remove the movieContainer.innerHTML = '' line from the dropdo
 Edited
 main.js+0-3
 Fixed! I removed the movieContainer.innerHTML = '' lines from all three dropdown event listeners in main.js. Now when page === 1, the renderIMDBData function will only replace the images inside the #movie-matrix div instead of clearing the entire container, which should eliminate the page refresh effect.
+
+
+Q:do I still need to keep checking on isLoading & hasMorePagesToLoad before loading more content now that I'm using the IntersectObserver?
+
+A: Yes, you still need both checks!
+
+isLoading: IntersectionObserver can fire multiple times while the sentinel remains visible. Without this check, you could trigger multiple simultaneous API requests, which would cause duplicate content and waste resources.
+
+hasMorePagesToLoad: This tells you when the API has no more data to fetch. Without it, you'd keep making unnecessary API calls even after reaching the last page.
+
+These checks protect against:
+
+Multiple simultaneous requests (isLoading)
+Infinite requests when there's no more data (hasMorePagesToLoad)
+Both are essential regardless of whether you use scroll events or IntersectionObserver - they're about managing the data fetching state, not the scroll mechanism.
