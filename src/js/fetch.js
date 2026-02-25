@@ -42,7 +42,16 @@ function showMoviePopup(movie, genres) {
     </div>
   `;
   document.body.appendChild(popup);
+
+  // Close button handler
   document.getElementById('close-popup-button').onclick = () => popup.remove();
+
+  // Close popup when clicking outside the container
+  popup.addEventListener('click', (e) => {
+    if (e.target.id === 'movie-popup') {
+      popup.remove();
+    }
+  });
 }
 
 // Render function for api data
