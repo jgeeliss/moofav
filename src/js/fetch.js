@@ -36,7 +36,7 @@ function showMoviePopup(movie, genres) {
       <h2>${movie.title || ''}</h2>
       <p><strong>Year:</strong> ${movie.release_date ? movie.release_date.split('-')[0] : 'n/a'}</p>
       <p><strong>Genres:</strong> ${genreNames || 'n/a'}</p>
-      <p><strong>Rating:</strong> ${movie.vote_average || 'n/a'}</p>
+      <p><strong>Rating:</strong> ${movie.vote_average ? movie.vote_average.toFixed(1) : 'n/a'}</p>
       <p><strong>Plot:</strong> ${movie.overview || 'n/a'}</p>
       <button id="close-popup-button" class="nav-button">Close</button>
     </div>
@@ -48,11 +48,40 @@ function showMoviePopup(movie, genres) {
 // Render function for api data
 function renderIMDBData(element, data, genres) {
   if (data && Array.isArray(data.results)) {
-    // Show only movie images in a flex container
-    const images = data.results.map(title => {
-      if (title.poster_path) {
-        const imgUrl = `https://image.tmdb.org/t/p/w500${title.poster_path}`;
-        return `<div><img id="${title.id}" class="movie-img" src="${imgUrl}" alt="${title.title}"></div>`;
+    // Show movies in a list with details
+    const movieItems = data.results.map(movie => {
+      if (movie.poster_path) {
+        const imgUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+        const year = movie.release_date ? movie.release_date.split('-')[0] : 'n/a';
+        const rating = movie.vote_average ? movie.vote_average.toFixed(1) : 'n/a';
+
+        // Get genre names
+        let genreNames = '';
+        if (movie.genre_ids && movie.genre_ids.length > 0) {
+          genreNames = movie.genre_ids.map(id => {
+            const genre = genres.find(g => g.id === id);
+            return genre ? genre.name : '';
+          }).filter(name => name).join(', ');
+        }
+        if (!genreNames) genreNames = 'n/a';
+
+        const plot = movie.overview || 'n/a`';
+
+        return `
+          <div class="movie-item" data-id="${movie.id}">
+            <img class="movie-img" src="${imgUrl}" alt="${movie.title}">
+            <div class="movie-details">
+              <h2 class="movie-title">${movie.title}</h2>
+              <div class="movie-meta">
+                <span><strong>Year:&nbsp;</strong> ${year}</span>
+                <span><strong>Rating:&nbsp;</strong> ${rating}</span>
+                <span><strong>Vote Count:&nbsp;</strong> ${movie.vote_count}</span>
+                <span><strong>Language:&nbsp;</strong> ${movie.original_language}</span>
+              </div>
+              <span><strong>Genres:</strong> ${genreNames}</span>
+            </div>
+          </div>
+        `;
       }
     }).join('');
 
@@ -61,27 +90,28 @@ function renderIMDBData(element, data, genres) {
 
     // start from scratch if no movie matrix
     if (!movieMatrix) {
-      const html = `<div id="movie-matrix">${images}</div>`;
+      const html = `<div id="movie-matrix">${movieItems}</div>`;
       element.innerHTML = html;
       movieMatrix = element.querySelector('#movie-matrix');
-    // on first page (=filter change) only replace the old images with the new ones 
+    // on first page (=filter change) only replace the old items with the new ones
     } else if (data.page === 1) {
-      movieMatrix.innerHTML = images;
+      movieMatrix.innerHTML = movieItems;
     } else {
       // insertAdjacentHTML adds the new HTML without removing existing content
-      movieMatrix.insertAdjacentHTML('beforeend', images);
+      movieMatrix.insertAdjacentHTML('beforeend', movieItems);
     }
 
-    // Add click event to newly added movie images
-    const newImages = element.querySelectorAll('.movie-img');
-    newImages.forEach(img => {
-      if (!img.dataset.hasListener) {
-        img.dataset.hasListener = 'true';
-        img.addEventListener('click', function () {
-          // get id from element
-          const movieId = this.getAttribute('id');
-          const movie = data.results.find(title => title.id === parseInt(movieId));
-          showMoviePopup(movie, genres);
+    // Add click event to all movie items
+    const movieItemElements = element.querySelectorAll('.movie-item');
+    movieItemElements.forEach(item => {
+      if (!item.dataset.hasListener) {
+        item.dataset.hasListener = 'true';
+        item.addEventListener('click', function () {
+          const movieId = this.getAttribute('data-id');
+          const movie = data.results.find(m => m.id === parseInt(movieId));
+          if (movie) {
+            showMoviePopup(movie, genres);
+          }
         });
       }
     });
@@ -91,7 +121,7 @@ function renderIMDBData(element, data, genres) {
   }
 }
 
-export const fetchIMDBData = (element, page = 1, genres, genre = null, year = null, rating = null) => {
+export const fetchIMDBData = (element, page, genres, genre = null, year = null, rating = null) => {
   let url = 'https://api.themoviedb.org/3/discover/movie?api_key=0f0bf386975247347f8ced16ab3804e7';
 
   page && (url += `&page=${page}`);

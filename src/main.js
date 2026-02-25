@@ -105,7 +105,7 @@ window.addEventListener('scroll', () => {
 });
 
 // Initial fetch
-fetchIMDBData(movieContainer, 1).then((hasMore) => {
+fetchIMDBData(movieContainer, 1, genres).then((hasMore) => {
   isLoading = false;
   hasMorePagesToLoad = hasMore;
 });
