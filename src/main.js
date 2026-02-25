@@ -19,6 +19,7 @@ document.querySelector('#app').innerHTML = `
       </select>
     </div>
     <div id="movie-container"></div>
+    <div id="sentinel" style="height: 1px;"></div>
   </div>
 `
 
@@ -82,16 +83,28 @@ document.querySelector('#rating-select').addEventListener('change', (e) => {
   fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating);
 });
 
-// Infinite scroll listener
-window.addEventListener('scroll', () => {
-  // don't load more if already loading or no more pages to load
-  if (isLoading || !hasMorePagesToLoad) return;
-  
-  // scroll event listener detects when user is near bottom (500px threshold)
-  const scrollPosition = window.innerHeight + window.scrollY;
-  const threshold = document.body.offsetHeight - 500;
-  
-  if (scrollPosition >= threshold) {
+// Intersection Observer for infinite scroll
+// source: https://preparefrontend.com/blog/blog/mastering-intersection-observer-in-javascript
+function createInfiniteScroll(callback) {
+  const sentinel = document.querySelector('#sentinel');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      // don't load more if already loading or no more pages to load
+      if (isLoading || !hasMorePagesToLoad) return;
+      callback(entry);
+    });
+  }, {
+    threshold: 0.1, // trigger when 10% of the sentinel is visible
+    rootMargin: '500px' // trigger 500px before the sentinel enters viewport
+  });
+
+  observer.observe(sentinel);
+  return observer;
+}
+
+const loadMoreContent = (entry) => {
+  // when sentinel comes into view, load more movies
+  if (entry.isIntersecting) {
     isLoading = true;
     currentPage++;
     fetchIMDBData(movieContainer, currentPage, genres, selectedGenre, selectedYear, selectedRating)
@@ -102,7 +115,9 @@ window.addEventListener('scroll', () => {
         hasMorePagesToLoad = morePagesToLoad;
       });
   }
-});
+};
+
+createInfiniteScroll(loadMoreContent);
 
 // Initial fetch
 fetchIMDBData(movieContainer, 1, genres).then((hasMore) => {
