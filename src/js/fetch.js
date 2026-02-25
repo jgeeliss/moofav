@@ -130,13 +130,15 @@ function renderIMDBData(element, data, genres) {
   }
 }
 
-export const fetchIMDBData = (element, page, genres, genre = null, year = null, rating = null) => {
-  let url = 'https://api.themoviedb.org/3/discover/movie?api_key=0f0bf386975247347f8ced16ab3804e7';
+export const fetchIMDBData = (element, page, genres, genre = null, year = null, rating = null, sort = 'popularity.desc') => {
+  // set vote_count to min 1.000 and in English to filter out obscure movies with wrong data
+  let url = 'https://api.themoviedb.org/3/discover/movie?vote_count.gte=1000&with_original_language=en&api_key=0f0bf386975247347f8ced16ab3804e7';
 
   page && (url += `&page=${page}`);
   genre && (url += `&with_genres=${genre}`);
   year && (url += `&primary_release_year=${year}`);
   rating && (url += `&vote_average.gte=${rating}`);
+  sort && (url += `&sort_by=${sort}`);
 
   return fetch(url)
     .then(response => response.json())

@@ -17,6 +17,16 @@ document.querySelector('#app').innerHTML = `
       <select id="rating-select">
         <option value="">All Ratings</option>
       </select>
+      <label for="sort-select">Sort by: </label>
+      <select id="sort-select">
+        <option value="popularity.desc">Popularity</option>
+        <option value="vote_average.desc">Rating (High to Low)</option>
+        <option value="vote_average.asc">Rating (Low to High)</option>
+        <option value="release_date.desc">Release Date (Newest)</option>
+        <option value="release_date.asc">Release Date (Oldest)</option>
+        <option value="title.asc">Title (A-Z)</option>
+        <option value="title.desc">Title (Z-A)</option>
+      </select>
     </div>
     <div id="movie-container"></div>
     <div id="sentinel" style="height: 1px;"></div>
@@ -57,6 +67,7 @@ const movieContainer = document.querySelector('#movie-container');
 let selectedGenre = null;
 let selectedYear = null;
 let selectedRating = null;
+let selectedSort = 'popularity.desc';
 let currentPage = 1;
 let hasMorePagesToLoad = true;
 let isLoading = false;
@@ -66,21 +77,28 @@ document.querySelector('#genre-select').addEventListener('change', (e) => {
   // reset page to 1 on genre change
   currentPage = 1;
   hasMorePagesToLoad = true;
-  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating);
+  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedSort);
 });
 
 document.querySelector('#year-select').addEventListener('change', (e) => {
   selectedYear = e.target.value || null;
   currentPage = 1;
   hasMorePagesToLoad = true;
-  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating);
+  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedSort);
 });
 
 document.querySelector('#rating-select').addEventListener('change', (e) => {
   selectedRating = e.target.value || null;
   currentPage = 1;
   hasMorePagesToLoad = true;
-  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating);
+  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedSort);
+});
+
+document.querySelector('#sort-select').addEventListener('change', (e) => {
+  selectedSort = e.target.value;
+  currentPage = 1;
+  hasMorePagesToLoad = true;
+  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedSort);
 });
 
 // Intersection Observer for infinite scroll
@@ -107,7 +125,7 @@ const loadMoreContent = (entry) => {
   if (entry.isIntersecting) {
     isLoading = true;
     currentPage++;
-    fetchIMDBData(movieContainer, currentPage, genres, selectedGenre, selectedYear, selectedRating)
+    fetchIMDBData(movieContainer, currentPage, genres, selectedGenre, selectedYear, selectedRating, selectedSort)
       .then((morePagesToLoad) => {
         // loading is done, we can load some more on scroll
         isLoading = false;
@@ -120,7 +138,7 @@ const loadMoreContent = (entry) => {
 createInfiniteScroll(loadMoreContent);
 
 // Initial fetch
-fetchIMDBData(movieContainer, 1, genres).then((hasMore) => {
+fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedSort).then((hasMore) => {
   isLoading = false;
   hasMorePagesToLoad = hasMore;
 });
