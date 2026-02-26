@@ -111,3 +111,22 @@ These checks protect against:
 Multiple simultaneous requests (isLoading)
 Infinite requests when there's no more data (hasMorePagesToLoad)
 Both are essential regardless of whether you use scroll events or IntersectionObserver - they're about managing the data fetching state, not the scroll mechanism.
+
+
+Q: sometimes movies have very long titles that suddenly make all the movie-items wider, that shouldn't happen
+
+A: I'll check the current CSS styling for movie items to fix the issue with long titles expanding the width.
+
+The issue is that #app only has max-width but no explicit width. When content wants to expand, it can push beyond the viewport. I need to add width: 100% to #app.
+
+Edited
+style.css+6-0
+I've added min-width: 0 to the .movie-details container. This is crucial for flexbox - by default, flex items have a minimum width of auto, which prevents them from shrinking below their content size. Setting min-width: 0 allows the flex item to shrink and enables the text-overflow ellipsis to work properly.
+I've added text overflow handling to the movie titles. Now long titles will be truncated with an ellipsis (...) instead of expanding the movie-item width.
+I've added width: 100% and box-sizing: border-box to #app. This ensures the app container takes the full width of its parent (the body/viewport) and cannot expand wider, which will properly constrain all child elements including the movie items and force long titles to truncate.
+
+The essential changes that fix the issue are:
+
+#app with width: 100% and box-sizing: border-box (the root fix)
+.movie-title ellipsis properties (displays the truncation)
+.movie-details with min-width: 0 (allows flex shrinking)
