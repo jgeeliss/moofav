@@ -39,6 +39,11 @@ label {
    margin-left: 1em;
 }
 
+#filters-container {
+  height: 1.4em;
+  vertical-align: middle;
+}
+
 /* the movie-popup itself takes the full viewport for closing on click to work */
 #movie-popup {
   position: fixed;
@@ -139,6 +144,10 @@ label {
 #movie-popup-image {
    max-width: 120px;
    max-height: 160px;
+}
+
+#filters-container {
+  display: inline-flex;
 }
 
 .nav-button {

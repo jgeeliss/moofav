@@ -7,28 +7,30 @@ document.querySelector('#app').innerHTML = `
     <div>
       <label for="search-input">Search: </label>
       <input type="text" id="search-input" placeholder="Search movies...">
-      <label for="genre-select">Genre: </label>
-      <select id="genre-select">
-        <option value="">All Genres</option>
-      </select>
-      <label for="year-select">Year: </label>
-      <select id="year-select">
-        <option value="">All Years</option>
-      </select>
-      <label for="rating-select">Rating: </label>
-      <select id="rating-select">
-        <option value="">All Ratings</option>
-      </select>
-      <label for="sort-select">Sort by: </label>
-      <select id="sort-select">
-        <option value="popularity.desc">Popularity</option>
-        <option value="vote_average.desc">Rating (High to Low)</option>
-        <option value="vote_average.asc">Rating (Low to High)</option>
-        <option value="release_date.desc">Release Date (Newest)</option>
-        <option value="release_date.asc">Release Date (Oldest)</option>
-        <option value="title.asc">Title (A-Z)</option>
-        <option value="title.desc">Title (Z-A)</option>
-      </select>
+      <div id="filters-container">
+        <label for="genre-select">Genre: </label>
+        <select id="genre-select">
+          <option value="">All Genres</option>
+        </select>
+        <label for="year-select">Year: </label>
+        <select id="year-select">
+          <option value="">All Years</option>
+        </select>
+        <label for="rating-select">Rating: </label>
+        <select id="rating-select">
+          <option value="">All Ratings</option>
+        </select>
+        <label for="sort-select">Sort by: </label>
+        <select id="sort-select">
+          <option value="popularity.desc">Popularity</option>
+          <option value="vote_average.desc">Rating (High to Low)</option>
+          <option value="vote_average.asc">Rating (Low to High)</option>
+          <option value="release_date.desc">Release Date (Newest)</option>
+          <option value="release_date.asc">Release Date (Oldest)</option>
+          <option value="title.asc">Title (A-Z)</option>
+          <option value="title.desc">Title (Z-A)</option>
+        </select>
+      </div>
     </div>
     <div id="movie-container"></div>
     <div id="sentinel" style="height: 1px;"></div>
@@ -79,6 +81,13 @@ document.querySelector('#search-input').addEventListener('input', (e) => {
   searchQuery = e.target.value.trim() || null;
   currentPage = 1;
   hasMorePagesToLoad = true;
+
+  // Hide filters when searching, show when cleared
+  const filtersContainer = document.querySelector('#filters-container');
+  filtersContainer.style.visibility = searchQuery ? 'hidden' : 'visible';
+  // const searchBox = document.querySelector('#search-input');
+  // searchBox.style.width = searchQuery ? '50%' : 'auto';
+
   fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedSort, searchQuery);
 });
 
