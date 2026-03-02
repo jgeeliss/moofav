@@ -1,10 +1,16 @@
 import './css/style.css'
+import './css/dark-theme.css'
+import './css/light-theme.css'
 import { fetchIMDBData, getMovieGenres } from './js/fetch.js'
 
 document.querySelector('#app').innerHTML = `
   <div>
+    <div style="text-align: right; margin-bottom: 1em;">
+      <p style="display: inline; margin-right: 0.5em;">Theme:</p>
+      <button id="theme-toggle" class="theme-toggle">Dark</button>
+    </div>
     <h1>MooFav, your favorite movies & TV shows</h1>
-    <div>
+    <div id="nav-container">
       <label for="search-input">Search: </label>
       <input type="text" id="search-input" placeholder="Search movies...">
       <div id="filters-container">
@@ -36,6 +42,15 @@ document.querySelector('#app').innerHTML = `
     <div id="sentinel" style="height: 1px;"></div>
   </div>
 `
+
+// Theme toggle functionality
+const themeToggle = document.querySelector('#theme-toggle');
+
+themeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('light-theme');
+  const isLight = document.body.classList.contains('light-theme');
+  themeToggle.textContent = isLight ? 'Light' : 'Dark';
+});
 
 // Populate genre dropdown
 const genres = await getMovieGenres();

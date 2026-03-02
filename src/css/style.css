@@ -4,8 +4,6 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -15,19 +13,7 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
   text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
 }
 
 h1 {
@@ -39,9 +25,19 @@ label {
    margin-left: 1em;
 }
 
-#filters-container {
-  height: 1.4em;
+#nav-container {
+  height: 2em;
   vertical-align: middle;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5em;
+}
+
+select, input {
+  height: 2em;
+  padding: 0;
+  border-radius: 4px;
 }
 
 /* the movie-popup itself takes the full viewport for closing on click to work */
@@ -51,7 +47,6 @@ label {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -59,8 +54,6 @@ label {
 
 /* the movie-popup-container is the actual popup content */
 #movie-popup-container {
-  background: black;
-  color: white;
   padding: 2em;
   border-radius: 8px;
   text-align: center;
@@ -85,20 +78,17 @@ label {
   display: flex;
   gap: 20px;
   padding: 15px;
-  background-color: #1a1a1a;
   border-radius: 8px;
 }
 
 .movie-item:hover {
   transform: translateX(5px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .movie-img {
   width: 120px;
   height: 180px;
   object-fit: cover;
-  background-color: #213547;
   border-radius: 4px;
   flex-shrink: 0;
 }
@@ -116,7 +106,6 @@ label {
   font-size: 1.5em;
   font-weight: bold;
   margin: 0;
-  color: #ffffff;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -126,7 +115,6 @@ label {
   display: flex;
   gap: 15px;
   flex-wrap: wrap;
-  color: #cccccc;
   font-size: 0.9em;
 }
 
@@ -136,7 +124,6 @@ label {
 }
 
 .movie-plot {
-  color: #aaaaaa;
   line-height: 1.6;
   margin-top: 5px;
 }
@@ -144,10 +131,6 @@ label {
 #movie-popup-image {
    max-width: 120px;
    max-height: 160px;
-}
-
-#filters-container {
-  display: inline-flex;
 }
 
 .nav-button {
@@ -195,10 +178,21 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
+.theme-toggle {
+  padding: 0.5em 0.8em;
+  font-size: 1.2em;
+  border-radius: 15%;
+  width: 3em;
+  height: 2em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 button:hover {
   border-color: #646cff;
 }
