@@ -46,10 +46,19 @@ document.querySelector('#app').innerHTML = `
 // Theme toggle functionality
 const themeToggle = document.querySelector('#theme-toggle');
 
+// get user's saved theme on load
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'light') {
+  // add light theme class to body
+  document.body.classList.add('light-theme');
+  themeToggle.textContent = 'Light';
+}
+
 themeToggle.addEventListener('click', () => {
   document.body.classList.toggle('light-theme');
   const isLight = document.body.classList.contains('light-theme');
   themeToggle.textContent = isLight ? 'Light' : 'Dark';
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
 });
 
 // Populate genre dropdown
