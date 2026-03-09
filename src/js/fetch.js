@@ -32,6 +32,7 @@ function showMoviePopup(movie, genres) {
   popup.id = 'movie-popup';
   popup.innerHTML = `
     <div id="movie-popup-container">
+      <button id="favorite-button" class="heart-button">♥</button>
       <img id="movie-popup-image" src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}">
       <h2>${movie.title || ''}</h2>
       <p><strong>Year:</strong> ${movie.release_date ? movie.release_date.split('-')[0] : 'n/a'}</p>

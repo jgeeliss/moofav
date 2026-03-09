@@ -60,7 +60,28 @@ select, input {
   width: 50%;
   max-height: 90vh;
   overflow-y: auto;
+  position: relative;
 }
+
+.heart-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  font-size: 2em;
+  color: #ccc;
+  cursor: pointer;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+
 
 #movie-container {
   margin-top: 2em;
