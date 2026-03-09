@@ -1,4 +1,34 @@
 
+function getFavorites() {
+  const favorites = localStorage.getItem('moofav-favorites');
+  return favorites ? JSON.parse(favorites) : [];
+}
+
+function saveFavorites(favorites) {
+  localStorage.setItem('moofav-favorites', JSON.stringify(favorites));
+}
+
+function addToFavorites(movie) {
+  const favorites = getFavorites();
+  // Check if movie is already in favorites
+  const notFavoriteYet = !favorites.includes(movie.id);
+  if (notFavoriteYet) {
+    favorites.push(movie.id);
+    saveFavorites(favorites);
+  }
+}
+
+function removeFromFavorites(movieId) {
+  const favorites = getFavorites();
+  const updatedFavorites = favorites.filter(favId => favId !== movieId);
+  saveFavorites(updatedFavorites);
+}
+
+function isFavorite(movieId) {
+  const favorites = getFavorites();
+  return favorites.includes(movieId);
+}
+
 // Fetch genres from IMDB API
 export async function getMovieGenres() {
   const url = 'https://api.themoviedb.org/3/genre/movie/list?api_key=0f0bf386975247347f8ced16ab3804e7';
@@ -30,9 +60,13 @@ function showMoviePopup(movie, genres) {
   genreNames = genreNames.slice(0, -2); // Remove trailing comma and space
   const popup = document.createElement('div');
   popup.id = 'movie-popup';
+
+  // Check if movie is already in favorites
+  const isFav = isFavorite(movie.id);
+
   popup.innerHTML = `
     <div id="movie-popup-container">
-      <button id="favorite-button" class="heart-button">♥</button>
+      <button id="favorite-button" class="heart-button ${isFav ? 'favorite' : ''}">♥</button>
       <img id="movie-popup-image" src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}">
       <h2>${movie.title || ''}</h2>
       <p><strong>Year:</strong> ${movie.release_date ? movie.release_date.split('-')[0] : 'n/a'}</p>
@@ -43,6 +77,18 @@ function showMoviePopup(movie, genres) {
     </div>
   `;
   document.body.appendChild(popup);
+
+  // Favorite button handler
+  const favoriteButton = document.getElementById('favorite-button');
+  favoriteButton.onclick = () => {
+    if (isFavorite(movie.id)) {
+      removeFromFavorites(movie.id);
+      favoriteButton.classList.remove('favorite');
+    } else {
+      addToFavorites(movie);
+      favoriteButton.classList.add('favorite');
+    }
+  };
 
   // Close button handler
   document.getElementById('close-popup-button').onclick = () => popup.remove();

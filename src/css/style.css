@@ -97,8 +97,11 @@ select, input {
 }
 
 .heart-button:hover {
-  color: #ff6b6b;
   transform: scale(1.1);
+}
+
+.heart-button.favorite {
+  color: #ff6b6b;
 }
 
 #movie-container {
