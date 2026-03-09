@@ -16,10 +16,17 @@ a {
   text-decoration: inherit;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-  margin: 0;
+#logo_icon {
+  width: 120px;
+  max-width: 30%;
+}
+
+#logo_title {
+  height: auto;
+  max-height: 120px;
+  max-width: 80%;
+  /* keep aspect ratio */
+  width: auto;
 }
 
 label {

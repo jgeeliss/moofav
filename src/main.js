@@ -10,8 +10,9 @@ document.querySelector('#app').innerHTML = `
       <p style="display: inline; margin-right: 0.5em;">Theme:</p>
       <button id="theme-toggle" class="theme-toggle">Dark</button>
     </div>
-    <h1>MooFav</h1>
-    <h2>Your favorite movies & TV shows</h2>
+    <img id="logo_icon" src="./moofav_icon.png" alt="MooFav"/>
+    <img id="logo_title" src="./moofav_title.png" alt="Movie Database"/>
+    <div style="height: 1em;"></div>
     <div id="nav-container">
       <div class="filter-item">
         <label for="search-input">Search: </label>
