@@ -15,14 +15,14 @@ Voor het vak **Advanced Web** ga je een interactieve single-page webapplicatie b
 Jullie applicatie moet de volgende functies bevatten:
 
 ### Dataverzameling & -weergave
-- Haal data op van de API (API endpoint met minstens 20 op te halen objecten)
-- Toon de data op een visueel aantrekkelijke manier: lijst/tabel (+ kaart of andere visuele weergave naargelang API)
-- Zorg voor duidelijke details van de getoonde items (de lijstweergave toont minstens 6 kolommen)
+- ~~Haal data op van de API (API endpoint met minstens 20 op te halen objecten)~~
+- ~~Toon de data op een visueel aantrekkelijke manier: lijst/tabel (+ kaart of andere visuele weergave naargelang API)~~
+- ~~Zorg voor duidelijke details van de getoonde items (de lijstweergave toont minstens 6 kolommen)~~
 
 ### Interactiviteit
-- Filter functionaliteit (op type, locatie, datum, etc.)
-- Zoekfunctie
-- Sorteermogelijkheden
+- ~~Filter functionaliteit (op type, locatie, datum, etc.)~~
+- ~~Zoekfunctie~~
+- ~~Sorteermogelijkheden~~
 
 ### Personalisatie
 - Gebruikers kunnen favoriete locaties/gebeurtenissen opslaan

@@ -26,6 +26,10 @@ document.querySelector('#app').innerHTML = `
         <select id="rating-select">
           <option value="">All Ratings</option>
         </select>
+        <label for="language-select">Language: </label>
+        <select id="language-select">
+          <option value="">All Languages</option>
+        </select>
         <label for="sort-select">Sort by: </label>
         <select id="sort-select">
           <option value="popularity.desc">Popularity</option>
@@ -90,11 +94,23 @@ for (let rating = 6; rating <= 9; rating++) {
   ratingSelect.appendChild(option);
 }
 
+// Populate language dropdown with hardcoded list
+// fetching from https://api.themoviedb.org/3/configuration/languages turns up way too many hits!
+const languageSelect = document.querySelector('#language-select');
+const languages = [{"en":"English"},{"es":"Spanish"},{"fr":"French"},{"de":"German"},{"nl":"Dutch"},{"it":"Italian"},{"ja":"Japanese"},{"ko":"Korean"},{"zh":"Chinese"}];
+languages.forEach(lang => {
+  const option = document.createElement('option');
+  option.value = Object.keys(lang)[0];
+  option.textContent = Object.values(lang)[0];
+  languageSelect.appendChild(option);
+});
+
 // Add event listeners for dropdowns
 const movieContainer = document.querySelector('#movie-container');
 let selectedGenre = null;
 let selectedYear = null;
 let selectedRating = null;
+let selectedLanguage = null;
 let selectedSort = 'popularity.desc';
 let searchQuery = null;
 let currentPage = 1;
@@ -112,7 +128,7 @@ document.querySelector('#search-input').addEventListener('input', (e) => {
   // const searchBox = document.querySelector('#search-input');
   // searchBox.style.width = searchQuery ? '50%' : 'auto';
 
-  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedSort, searchQuery);
+  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedLanguage, selectedSort, searchQuery);
 });
 
 document.querySelector('#genre-select').addEventListener('change', (e) => {
@@ -120,28 +136,35 @@ document.querySelector('#genre-select').addEventListener('change', (e) => {
   // reset page to 1 on genre change
   currentPage = 1;
   hasMorePagesToLoad = true;
-  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedSort, searchQuery);
+  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedLanguage, selectedSort, searchQuery);
 });
 
 document.querySelector('#year-select').addEventListener('change', (e) => {
   selectedYear = e.target.value || null;
   currentPage = 1;
   hasMorePagesToLoad = true;
-  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedSort, searchQuery);
+  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedLanguage, selectedSort, searchQuery);
 });
 
 document.querySelector('#rating-select').addEventListener('change', (e) => {
   selectedRating = e.target.value || null;
   currentPage = 1;
   hasMorePagesToLoad = true;
-  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedSort, searchQuery);
+  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedLanguage, selectedSort, searchQuery);
 });
 
 document.querySelector('#sort-select').addEventListener('change', (e) => {
   selectedSort = e.target.value;
   currentPage = 1;
   hasMorePagesToLoad = true;
-  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedSort, searchQuery);
+  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedLanguage, selectedSort, searchQuery);
+});
+
+document.querySelector('#language-select').addEventListener('change', (e) => {
+  selectedLanguage = e.target.value || null;
+  currentPage = 1;
+  hasMorePagesToLoad = true;
+  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedLanguage, selectedSort, searchQuery);
 });
 
 // Intersection Observer for infinite scroll
@@ -168,7 +191,7 @@ const loadMoreContent = (entry) => {
   if (entry.isIntersecting) {
     isLoading = true;
     currentPage++;
-    fetchIMDBData(movieContainer, currentPage, genres, selectedGenre, selectedYear, selectedRating, selectedSort, searchQuery)
+    fetchIMDBData(movieContainer, currentPage, genres, selectedGenre, selectedYear, selectedRating, selectedLanguage, selectedSort, searchQuery)
       .then((morePagesToLoad) => {
         // loading is done, we can load some more on scroll
         isLoading = false;
@@ -181,7 +204,7 @@ const loadMoreContent = (entry) => {
 createInfiniteScroll(loadMoreContent);
 
 // Initial fetch
-fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedSort, searchQuery).then((hasMore) => {
+fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedLanguage, selectedSort, searchQuery).then((hasMore) => {
   isLoading = false;
   hasMorePagesToLoad = hasMore;
 });

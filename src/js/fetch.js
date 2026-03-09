@@ -130,7 +130,7 @@ function renderIMDBData(element, data, genres) {
   }
 }
 
-export const fetchIMDBData = (element, page, genres, genre = null, year = null, rating = null, sort = 'popularity.desc', searchQuery = null) => {
+export const fetchIMDBData = (element, page, genres, genre = null, year = null, rating = null, language = null, sort = 'popularity.desc', searchQuery = null) => {
 
   let url;
   if (searchQuery) {
@@ -141,6 +141,7 @@ export const fetchIMDBData = (element, page, genres, genre = null, year = null, 
     genre && (url += `&with_genres=${genre}`);
     year && (url += `&primary_release_year=${year}`);
     rating && (url += `&vote_average.gte=${rating}`);
+    language && (url += `&with_original_language=${language}`);
     sort && (url += `&sort_by=${sort}`);
   }
   page && (url += `&page=${page}`);
