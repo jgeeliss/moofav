@@ -25,7 +25,7 @@ Jullie applicatie moet de volgende functies bevatten:
 - ~~Sorteermogelijkheden~~
 
 ### Personalisatie
-- Gebruikers kunnen favoriete locaties/gebeurtenissen opslaan
+- ~~Gebruikers kunnen favoriete locaties/gebeurtenissen opslaan~~
 - Data wordt bewaard tussen sessies
 - Gebruikersvoorkeuren opslaan (zoals geolocatie, taalkeuze, themaswitcher, favorieten, gecachte API-data, ...)
 

@@ -1,6 +1,7 @@
 import './css/style.css'
 import './css/dark-theme.css'
 import './css/light-theme.css'
+import './css/mobile.css'
 import { fetchIMDBData, getMovieGenres } from './js/fetch.js'
 
 document.querySelector('#app').innerHTML = `
