@@ -9,29 +9,41 @@ document.querySelector('#app').innerHTML = `
       <p style="display: inline; margin-right: 0.5em;">Theme:</p>
       <button id="theme-toggle" class="theme-toggle">Dark</button>
     </div>
-    <h1>MooFav, your favorite movies & TV shows</h1>
+    <h1>MooFav</h1>
+    <h2>Your favorite movies & TV shows</h2>
     <div id="nav-container">
-      <label for="search-input">Search: </label>
-      <input type="text" id="search-input" placeholder="Search movies...">
+      <div class="filter-item">
+        <label for="search-input">Search: </label>
+        <input type="text" id="search-input" placeholder="Search movies...">
+      </div>
       <div id="filters-container">
-        <label for="genre-select">Genre: </label>
-        <select id="genre-select">
-          <option value="">All Genres</option>
-        </select>
-        <label for="year-select">Year: </label>
-        <select id="year-select">
-          <option value="">All Years</option>
-        </select>
-        <label for="rating-select">Rating: </label>
-        <select id="rating-select">
-          <option value="">All Ratings</option>
-        </select>
-        <label for="language-select">Language: </label>
-        <select id="language-select">
-          <option value="">All Languages</option>
-        </select>
-        <label for="sort-select">Sort by: </label>
-        <select id="sort-select">
+        <div class="filter-item">
+          <label for="genre-select">Genre: </label>
+          <select id="genre-select">
+            <option value="">All Genres</option>
+          </select>
+        </div>
+        <div class="filter-item">
+          <label for="year-select">Year: </label>
+          <select id="year-select">
+            <option value="">All Years</option>
+          </select>
+        </div>
+        <div class="filter-item">
+          <label for="rating-select">Rating: </label>
+          <select id="rating-select">
+            <option value="">All Ratings</option>
+          </select>
+        </div>
+        <div class="filter-item">
+          <label for="language-select">Language: </label>
+          <select id="language-select">
+            <option value="">All Languages</option>
+          </select>
+        </div>
+        <div class="filter-item">
+          <label for="sort-select">Sort by: </label>
+          <select id="sort-select">
           <option value="popularity.desc">Popularity</option>
           <option value="vote_average.desc">Rating (High to Low)</option>
           <option value="vote_average.asc">Rating (Low to High)</option>
@@ -40,6 +52,7 @@ document.querySelector('#app').innerHTML = `
           <option value="title.asc">Title (A-Z)</option>
           <option value="title.desc">Title (Z-A)</option>
         </select>
+        </div>
       </div>
     </div>
     <div id="movie-container"></div>

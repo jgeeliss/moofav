@@ -19,6 +19,7 @@ a {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  margin: 0;
 }
 
 label {
@@ -26,12 +27,26 @@ label {
 }
 
 #nav-container {
-  height: 2em;
   vertical-align: middle;
-  display: inline-flex;
+  display: flex;
   flex-direction: row;
   align-items: center;
   gap: 0.5em;
+  flex-wrap: wrap;
+}
+
+#filters-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5em;
+  flex-wrap: wrap;
+}
+
+.filter-item {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
 }
 
 select, input {
