@@ -8,7 +8,7 @@ document.querySelector('#app').innerHTML = `
   <div>
     <div id="toggles-bar">
       <button id="favorites-toggle" class="toggle-button" title="Show favorites">♡</button>
-      <button id="theme-toggle" class="toggle-button">Dark</button>
+      <button id="theme-toggle" class="toggle-button" title="Toggle theme">●</button>
     </div>
     <img id="logo_icon" src="./moofav_icon.png" alt="MooFav"/>
     <img id="logo_title" src="./moofav_title.png" alt="Movie Database"/>
@@ -70,13 +70,13 @@ const savedTheme = localStorage.getItem('theme');
 if (savedTheme === 'light') {
   // add light theme class to body
   document.body.classList.add('light-theme');
-  themeToggle.textContent = 'Light';
+  themeToggle.textContent = '○';
 }
 
 themeToggle.addEventListener('click', () => {
   document.body.classList.toggle('light-theme');
   const isLight = document.body.classList.contains('light-theme');
-  themeToggle.textContent = isLight ? 'Light' : 'Dark';
+  themeToggle.textContent = isLight ? '○' : '●';
   localStorage.setItem('theme', isLight ? 'light' : 'dark');
 });
 
