@@ -130,3 +130,19 @@ The essential changes that fix the issue are:
 #app with width: 100% and box-sizing: border-box (the root fix)
 .movie-title ellipsis properties (displays the truncation)
 .movie-details with min-width: 0 (allows flex shrinking)
+
+
+Q: the show favoritesheart button and theme switcher are overlapping
+
+A: I see the issue. The .heart-button class has position: absolute which is meant for the heart button inside movie popups, but the favorites toggle is using the same class with inline styles. Let me fix this by adjusting the layout:
+
+Edited
+main.js+3-3
+Fixed! I've updated the layout to use flexbox with proper spacing. The changes:
+
+Added display: flex with align-items: center and justify-content: flex-end
+Added gap: 0.5em for consistent spacing between elements
+Set position: static on the favorites button to override the .heart-button absolute positioning
+Set width: auto and height: auto on the favorites button
+Removed display: inline and adjusted margins
+The buttons should now be properly aligned side-by-side without overlapping.

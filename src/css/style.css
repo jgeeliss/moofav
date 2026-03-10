@@ -231,7 +231,16 @@ button {
   transition: border-color 0.25s;
 }
 
-.theme-toggle {
+#toggles-bar {
+  text-align: right;
+  margin-bottom: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5em;
+}
+
+.toggle-button {
   padding: 0.5em 0.8em;
   font-size: 1.2em;
   border-radius: 15%;

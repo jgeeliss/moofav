@@ -1,5 +1,5 @@
 
-function getFavorites() {
+export function getFavorites() {
   const favorites = localStorage.getItem('moofav-favorites');
   return favorites ? JSON.parse(favorites) : [];
 }
@@ -177,7 +177,38 @@ function renderIMDBData(element, data, genres) {
   }
 }
 
-export const fetchIMDBData = (element, page, genres, genre = null, year = null, rating = null, language = null, sort = 'popularity.desc', searchQuery = null) => {
+export const fetchIMDBData = (element, page, genres, genre = null, year = null, rating = null, language = null, sort = 'popularity.desc', searchQuery = null, favoritesOnly = false) => {
+
+  // If showing favorites only, fetch favorite movies by ID
+  if (favoritesOnly) {
+    const favorites = getFavorites();
+    if (favorites.length === 0) {
+      element.innerHTML = '<div id="movie-matrix"><p>No favorite movies yet. Click the heart on any movie to add it to your favorites!</p></div>';
+      // return a resolved promise with false to indicate no more pages
+      return Promise.resolve(false);
+    }
+
+    // Fetch favorite movies (TMDB API doesn't support multiple IDs, so we fetch individually)
+    const moviePromises = favorites.map(id =>
+      fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=0f0bf386975247347f8ced16ab3804e7`)
+        .then(response => response.json())
+    );
+
+    return Promise.all(moviePromises)
+      .then(movies => {
+        const data = {
+          results: movies,
+          page: 1,
+          total_pages: 1
+        };
+        renderIMDBData(element, data, genres);
+        return false; // No more pages to load
+      })
+      .catch(error => {
+        element.innerHTML = `<span class="error-msg">Error fetching favorite movies: ${error}</span>`;
+        return false;
+      });
+  }
 
   let url;
   if (searchQuery) {

@@ -6,15 +6,15 @@ import { fetchIMDBData, getMovieGenres } from './js/fetch.js'
 
 document.querySelector('#app').innerHTML = `
   <div>
-    <div style="text-align: right; margin-bottom: 1em;">
-      <p style="display: inline; margin-right: 0.5em;">Theme:</p>
-      <button id="theme-toggle" class="theme-toggle">Dark</button>
+    <div id="toggles-bar">
+      <button id="favorites-toggle" class="toggle-button" title="Show favorites">♡</button>
+      <button id="theme-toggle" class="toggle-button">Dark</button>
     </div>
     <img id="logo_icon" src="./moofav_icon.png" alt="MooFav"/>
     <img id="logo_title" src="./moofav_title.png" alt="Movie Database"/>
     <div style="height: 1em;"></div>
     <div id="nav-container">
-      <div class="filter-item">
+      <div id="search-container" class="filter-item">
         <label for="search-input">Search: </label>
         <input type="text" id="search-input" placeholder="Search movies...">
       </div>
@@ -128,9 +128,28 @@ let selectedRating = null;
 let selectedLanguage = null;
 let selectedSort = 'popularity.desc';
 let searchQuery = null;
+let showFavoritesOnly = false;
 let currentPage = 1;
 let hasMorePagesToLoad = true;
 let isLoading = false;
+
+// Favorites toggle functionality
+const favoritesToggle = document.querySelector('#favorites-toggle');
+favoritesToggle.addEventListener('click', () => {
+  showFavoritesOnly = !showFavoritesOnly;
+  favoritesToggle.textContent = showFavoritesOnly ? '♥' : '♡';
+  favoritesToggle.classList.toggle('favorite', showFavoritesOnly);
+  currentPage = 1;
+  hasMorePagesToLoad = true;
+
+  // Hide filters and search when showing favorites
+  const filtersContainer = document.querySelector('#filters-container');
+  const searchContainer = document.querySelector('#search-container');
+  filtersContainer.style.visibility = showFavoritesOnly ? 'hidden' : 'visible';
+  searchContainer.style.visibility = showFavoritesOnly ? 'hidden' : 'visible';
+
+  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedLanguage, selectedSort, searchQuery, showFavoritesOnly);
+});
 
 document.querySelector('#search-input').addEventListener('input', (e) => {
   searchQuery = e.target.value.trim() || null;
@@ -143,7 +162,7 @@ document.querySelector('#search-input').addEventListener('input', (e) => {
   // const searchBox = document.querySelector('#search-input');
   // searchBox.style.width = searchQuery ? '50%' : 'auto';
 
-  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedLanguage, selectedSort, searchQuery);
+  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedLanguage, selectedSort, searchQuery, showFavoritesOnly);
 });
 
 document.querySelector('#genre-select').addEventListener('change', (e) => {
@@ -151,35 +170,35 @@ document.querySelector('#genre-select').addEventListener('change', (e) => {
   // reset page to 1 on genre change
   currentPage = 1;
   hasMorePagesToLoad = true;
-  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedLanguage, selectedSort, searchQuery);
+  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedLanguage, selectedSort, searchQuery, showFavoritesOnly);
 });
 
 document.querySelector('#year-select').addEventListener('change', (e) => {
   selectedYear = e.target.value || null;
   currentPage = 1;
   hasMorePagesToLoad = true;
-  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedLanguage, selectedSort, searchQuery);
+  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedLanguage, selectedSort, searchQuery, showFavoritesOnly);
 });
 
 document.querySelector('#rating-select').addEventListener('change', (e) => {
   selectedRating = e.target.value || null;
   currentPage = 1;
   hasMorePagesToLoad = true;
-  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedLanguage, selectedSort, searchQuery);
+  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedLanguage, selectedSort, searchQuery, showFavoritesOnly);
 });
 
 document.querySelector('#sort-select').addEventListener('change', (e) => {
   selectedSort = e.target.value;
   currentPage = 1;
   hasMorePagesToLoad = true;
-  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedLanguage, selectedSort, searchQuery);
+  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedLanguage, selectedSort, searchQuery, showFavoritesOnly);
 });
 
 document.querySelector('#language-select').addEventListener('change', (e) => {
   selectedLanguage = e.target.value || null;
   currentPage = 1;
   hasMorePagesToLoad = true;
-  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedLanguage, selectedSort, searchQuery);
+  fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedLanguage, selectedSort, searchQuery, showFavoritesOnly);
 });
 
 // Intersection Observer for infinite scroll
@@ -206,7 +225,7 @@ const loadMoreContent = (entry) => {
   if (entry.isIntersecting) {
     isLoading = true;
     currentPage++;
-    fetchIMDBData(movieContainer, currentPage, genres, selectedGenre, selectedYear, selectedRating, selectedLanguage, selectedSort, searchQuery)
+    fetchIMDBData(movieContainer, currentPage, genres, selectedGenre, selectedYear, selectedRating, selectedLanguage, selectedSort, searchQuery, showFavoritesOnly)
       .then((morePagesToLoad) => {
         // loading is done, we can load some more on scroll
         isLoading = false;
@@ -219,7 +238,7 @@ const loadMoreContent = (entry) => {
 createInfiniteScroll(loadMoreContent);
 
 // Initial fetch
-fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedLanguage, selectedSort, searchQuery).then((hasMore) => {
+fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedLanguage, selectedSort, searchQuery, showFavoritesOnly).then((hasMore) => {
   isLoading = false;
   hasMorePagesToLoad = hasMore;
 });

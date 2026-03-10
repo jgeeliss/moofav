@@ -30,8 +30,8 @@ Jullie applicatie moet de volgende functies bevatten:
 - Gebruikersvoorkeuren opslaan (zoals geolocatie, taalkeuze, themaswitcher, favorieten, gecachte API-data, ...)
 
 ### Gebruikerservaring
-- Responsive design
-- Visueel aantrekkelijke interface
+- ~~Responsive design~~
+- ~~Visueel aantrekkelijke interface~~
 - Gebruiksvriendelijke navigatie
 
 ---
