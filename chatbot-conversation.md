@@ -146,3 +146,23 @@ Set position: static on the favorites button to override the .heart-button absol
 Set width: auto and height: auto on the favorites button
 Removed display: inline and adjusted margins
 The buttons should now be properly aligned side-by-side without overlapping.
+
+
+Q: Can you create a dictionary for translations that uses my updateLanguage function so that switching the language translates all the labels to Dutch?
+
+Q: I'll add a translations object and alter the updateLanguage function to update all the labels:
+
+Edited
+main.js+91-4
+Perfect! I've added a complete translation system. Now when you click the language toggle button:
+
+All labels translate between English and Dutch:
+
+Search, Genre, Year, Rating, Language, Sort by labels
+All dropdown default options (All Genres, All Years, etc.)
+All sort options (Popularity, Rating, Release Date, Title)
+Button tooltips (Show favorites, Toggle theme)
+
+The system is extensible - you can easily add more translations by adding them to the translations object
+
+The language toggle now fully translates the UI between English (EN) and Dutch (NL)!

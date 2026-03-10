@@ -4,6 +4,90 @@ import './css/light-theme.css'
 import './css/mobile.css'
 import { fetchIMDBData, getMovieGenres } from './js/fetch.js'
 
+// Translations
+const translations = {
+  en: {
+    search: 'Search:',
+    searchPlaceholder: 'Search movies...',
+    genre: 'Genre:',
+    allGenres: 'All Genres',
+    year: 'Year:',
+    allYears: 'All Years',
+    rating: 'Rating:',
+    allRatings: 'All Ratings',
+    language: 'Language:',
+    allLanguages: 'All Languages',
+    sortBy: 'Sort by:',
+    popularity: 'Popularity',
+    ratingHighLow: 'Rating (High to Low)',
+    ratingLowHigh: 'Rating (Low to High)',
+    releaseDateNewest: 'Release Date (Newest)',
+    releaseDateOldest: 'Release Date (Oldest)',
+    titleAZ: 'Title (A-Z)',
+    titleZA: 'Title (Z-A)',
+    showFavorites: 'Show favorites',
+    toggleTheme: 'Toggle theme'
+  },
+  nl: {
+    search: 'Zoeken:',
+    searchPlaceholder: 'Zoek films...',
+    genre: 'Genre:',
+    allGenres: 'Alle Genres',
+    year: 'Jaar:',
+    allYears: 'Alle Jaren',
+    rating: 'Beoordeling:',
+    allRatings: 'Alle Beoordelingen',
+    language: 'Taal:',
+    allLanguages: 'Alle Talen',
+    sortBy: 'Sorteren op:',
+    popularity: 'Populariteit',
+    ratingHighLow: 'Beoordeling (Hoog naar Laag)',
+    ratingLowHigh: 'Beoordeling (Laag naar Hoog)',
+    releaseDateNewest: 'Releasedatum (Nieuwste)',
+    releaseDateOldest: 'Releasedatum (Oudste)',
+    titleAZ: 'Titel (A-Z)',
+    titleZA: 'Titel (Z-A)',
+    showFavorites: 'Toon favorieten',
+    toggleTheme: 'Wissel thema'
+  }
+};
+
+let currentLanguage = 'en';
+
+function updateLanguage(lang) {
+  currentLanguage = lang;
+  const t = translations[lang];
+  
+  // Update labels
+  document.querySelector('label[for="search-input"]').textContent = t.search;
+  document.querySelector('#search-input').placeholder = t.searchPlaceholder;
+  document.querySelector('label[for="genre-select"]').textContent = t.genre;
+  document.querySelector('label[for="year-select"]').textContent = t.year;
+  document.querySelector('label[for="rating-select"]').textContent = t.rating;
+  document.querySelector('label[for="language-select"]').textContent = t.language;
+  document.querySelector('label[for="sort-select"]').textContent = t.sortBy;
+  
+  // Update dropdown default options
+  document.querySelector('#genre-select option[value=""]').textContent = t.allGenres;
+  document.querySelector('#year-select option[value=""]').textContent = t.allYears;
+  document.querySelector('#rating-select option[value=""]').textContent = t.allRatings;
+  document.querySelector('#language-select option[value=""]').textContent = t.allLanguages;
+  
+  // Update sort options
+  const sortSelect = document.querySelector('#sort-select');
+  sortSelect.querySelector('option[value="popularity.desc"]').textContent = t.popularity;
+  sortSelect.querySelector('option[value="vote_average.desc"]').textContent = t.ratingHighLow;
+  sortSelect.querySelector('option[value="vote_average.asc"]').textContent = t.ratingLowHigh;
+  sortSelect.querySelector('option[value="release_date.desc"]').textContent = t.releaseDateNewest;
+  sortSelect.querySelector('option[value="release_date.asc"]').textContent = t.releaseDateOldest;
+  sortSelect.querySelector('option[value="title.asc"]').textContent = t.titleAZ;
+  sortSelect.querySelector('option[value="title.desc"]').textContent = t.titleZA;
+  
+  // Update button titles
+  document.querySelector('#favorites-toggle').title = t.showFavorites;
+  document.querySelector('#theme-toggle').title = t.toggleTheme;
+}
+
 document.querySelector('#app').innerHTML = `
   <div>
     <div id="toggles-bar">
@@ -77,6 +161,7 @@ languageToggle.addEventListener('click', () => {
   const newLanguage = currentLanguage === 'EN' ? 'NL' : 'EN'; // Toggle between English and Dutch
   languageToggle.textContent = newLanguage;
   localStorage.setItem('language', newLanguage);
+  updateLanguage(newLanguage.toLowerCase());
 });
 
 // Theme toggle functionality
