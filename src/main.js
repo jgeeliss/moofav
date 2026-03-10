@@ -8,6 +8,7 @@ document.querySelector('#app').innerHTML = `
   <div>
     <div id="toggles-bar">
       <button id="favorites-toggle" class="toggle-button" title="Show favorites">♡</button>
+      <button id="language-toggle" class="toggle-button" title="Language">EN</button>
       <button id="theme-toggle" class="toggle-button" title="Toggle theme">●</button>
     </div>
     <img id="logo_icon" src="./moofav_icon.png" alt="MooFav"/>
@@ -61,6 +62,22 @@ document.querySelector('#app').innerHTML = `
     <div id="sentinel" style="height: 1px;"></div>
   </div>
 `
+
+// Language toggle functionality
+const languageToggle = document.querySelector('#language-toggle');
+
+// get user's saved language on load
+const savedLanguage = localStorage.getItem('language');
+if (savedLanguage) {
+  languageToggle.textContent = savedLanguage;
+}
+
+languageToggle.addEventListener('click', () => {
+  const currentLanguage = languageToggle.textContent;
+  const newLanguage = currentLanguage === 'EN' ? 'NL' : 'EN'; // Toggle between English and Dutch
+  languageToggle.textContent = newLanguage;
+  localStorage.setItem('language', newLanguage);
+});
 
 // Theme toggle functionality
 const themeToggle = document.querySelector('#theme-toggle');
