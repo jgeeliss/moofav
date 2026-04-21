@@ -3,60 +3,13 @@ import './css/dark-theme.css'
 import './css/light-theme.css'
 import './css/mobile.css'
 import { fetchIMDBData, getMovieGenres } from './js/fetch.js'
-
-// Translations
-const translations = {
-  en: {
-    search: 'Search:',
-    searchPlaceholder: 'Search movies...',
-    genre: 'Genre:',
-    allGenres: 'All Genres',
-    year: 'Year:',
-    allYears: 'All Years',
-    rating: 'Rating:',
-    allRatings: 'All Ratings',
-    language: 'Language:',
-    allLanguages: 'All Languages',
-    sortBy: 'Sort by:',
-    popularity: 'Popularity',
-    ratingHighLow: 'Rating (High to Low)',
-    ratingLowHigh: 'Rating (Low to High)',
-    releaseDateNewest: 'Release Date (Newest)',
-    releaseDateOldest: 'Release Date (Oldest)',
-    titleAZ: 'Title (A-Z)',
-    titleZA: 'Title (Z-A)',
-    showFavorites: 'Show favorites',
-    toggleTheme: 'Toggle theme'
-  },
-  nl: {
-    search: 'Zoeken:',
-    searchPlaceholder: 'Zoek films...',
-    genre: 'Genre:',
-    allGenres: 'Alle Genres',
-    year: 'Jaar:',
-    allYears: 'Alle Jaren',
-    rating: 'Beoordeling:',
-    allRatings: 'Alle Beoordelingen',
-    language: 'Taal:',
-    allLanguages: 'Alle Talen',
-    sortBy: 'Sorteren op:',
-    popularity: 'Populariteit',
-    ratingHighLow: 'Beoordeling (Hoog naar Laag)',
-    ratingLowHigh: 'Beoordeling (Laag naar Hoog)',
-    releaseDateNewest: 'Releasedatum (Nieuwste)',
-    releaseDateOldest: 'Releasedatum (Oudste)',
-    titleAZ: 'Titel (A-Z)',
-    titleZA: 'Titel (Z-A)',
-    showFavorites: 'Toon favorieten',
-    toggleTheme: 'Wissel thema'
-  }
-};
+import translationsData from './dictionary.json'
 
 let currentLanguage = 'en';
 
 function updateLanguage(lang) {
   currentLanguage = lang;
-  const t = translations[lang];
+  const t = translationsData[lang];
   
   // Update labels
   document.querySelector('label[for="search-input"]').textContent = t.search;
@@ -155,6 +108,9 @@ const savedLanguage = localStorage.getItem('language');
 if (savedLanguage) {
   languageToggle.textContent = savedLanguage;
 }
+
+// set initial language based on saved preference or default to English
+updateLanguage((savedLanguage || 'EN').toLowerCase());
 
 languageToggle.addEventListener('click', () => {
   const currentLanguage = languageToggle.textContent;
