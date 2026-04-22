@@ -36,43 +36,6 @@ Jullie applicatie moet de volgende functies bevatten:
 
 ---
 
-## Technische vereisten
-
-Jullie project moet **ALLE** onderstaande JavaScript-concepten demonstreren. Per onderdeel moeten jullie in de README documenteren waar en hoe je deze concepten hebt toegepast:
-
-### DOM manipulatie
-- Elementen selecteren
-- Elementen manipuleren
-- Events aan elementen koppelen
-
-### Modern JavaScript
-- Gebruik van constanten
-- Template literals
-- Iteratie over arrays
-- Array methodes
-- Arrow functions
-- Conditional (ternary) operator (moderne if..else)
-- Callback functions
-- Promises
-- Async & Await
-- Observer API (1 is voldoende)
-
-### Data & API
-- Fetch om data op te halen
-- JSON manipuleren en weergeven
-
-### Opslag & validatie
-- Formulier validatie
-- Gebruik van LocalStorage
-
-### Styling & layout
-- Basis HTML layout (flexbox of CSS grid kan hiervoor worden gebruikt)
-- Basis CSS
-- Gebruiksvriendelijke elementen (verwijderknoppen, icoontjes, ...)
-
-### Tooling & structuur
-- Project is opgezet met Vite
-- Een correcte folderstructuur wordt aangehouden (gescheiden html, css en js files, src folder, dist folder, ...)
 
 ---
 
@@ -80,13 +43,7 @@ Jullie project moet **ALLE** onderstaande JavaScript-concepten demonstreren. Per
 
 ### GitHub Repository met:
 - Complete broncode met comments en bronvermelding
-- Uitgebreide README met:
-    - Projectbeschrijving en functionaliteiten
-    - Gebruikte API's met links
-    - Implementatie van elke technisch vereiste (waar in de code?/lijnnummer)
-    - Installatiehandleiding
-    - Screenshots van de applicatie
-    - Gebruikte bronnen (inclusief AI chatlog)
+
 - Een Github Repository wil zeggen dat meerdere commits gedaan worden naar aanleiding van het finale project. Per onderdeel én dagelijks.
 
 ### Werkende Demo
