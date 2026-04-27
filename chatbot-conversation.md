@@ -166,3 +166,9 @@ Button tooltips (Show favorites, Toggle theme)
 The system is extensible - you can easily add more translations by adding them to the translations object
 
 The language toggle now fully translates the UI between English (EN) and Dutch (NL)!
+
+Q: when using the search, the other filters dissappear correctly, but the space where these were is not being cleared. Can you change the css to remove this empty space while using the search?
+
+A: I'll check the current CSS to understand the spacing issue with hidden filters during search.
+
+Found it. The issue is on line 246 of main.js:246 — it's using visibility: hidden which hides elements but preserves their layout space. Changing it to display: none will collapse the space entirely.

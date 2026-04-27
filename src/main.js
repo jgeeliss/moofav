@@ -234,8 +234,8 @@ favoritesToggle.addEventListener('click', () => {
   // Hide filters and search when showing favorites
   const filtersContainer = document.querySelector('#filters-container');
   const searchContainer = document.querySelector('#search-container');
-  filtersContainer.style.visibility = showFavoritesOnly ? 'hidden' : 'visible';
-  searchContainer.style.visibility = showFavoritesOnly ? 'hidden' : 'visible';
+  filtersContainer.style.display = showFavoritesOnly ? 'none' : '';
+  searchContainer.style.display = showFavoritesOnly ? 'none' : '';
 
   fetchIMDBData(movieContainer, 1, genres, selectedGenre, selectedYear, selectedRating, selectedLanguage, selectedSort, searchQuery, showFavoritesOnly);
 });
@@ -247,7 +247,7 @@ document.querySelector('#search-input').addEventListener('input', (e) => {
 
   // Hide filters when searching, show when cleared
   const filtersContainer = document.querySelector('#filters-container');
-  filtersContainer.style.visibility = searchQuery ? 'hidden' : 'visible';
+  filtersContainer.style.display = searchQuery ? 'none' : '';
   // const searchBox = document.querySelector('#search-input');
   // searchBox.style.width = searchQuery ? '50%' : 'auto';
 
