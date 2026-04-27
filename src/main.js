@@ -39,6 +39,7 @@ function updateLanguage(lang) {
   // Update button titles
   document.querySelector('#favorites-toggle').title = t.showFavorites;
   document.querySelector('#theme-toggle').title = t.toggleTheme;
+  document.querySelector('#filters-toggle').textContent = t.filters;
 }
 
 document.querySelector('#app').innerHTML = `
@@ -51,6 +52,7 @@ document.querySelector('#app').innerHTML = `
     <img id="logo_icon" src="./moofav_icon.png" alt="MooFav"/>
     <img id="logo_title" src="./moofav_title.png" alt="Movie Database"/>
     <div style="height: 1em;"></div>
+    <button id="filters-toggle" class="toggle-button" type="button">Filters</button>
     <div id="nav-container">
       <div id="search-container" class="filter-item">
         <label for="search-input">Search: </label>
@@ -180,6 +182,10 @@ languages.forEach(lang => {
 
 // Add event listeners for dropdowns
 const movieContainer = document.querySelector('#movie-container');
+const filtersToggle = document.querySelector('#filters-toggle');
+const navContainer = document.querySelector('#nav-container');
+// check to see if we're on mobile to decide whether to show filters or not
+const onMobileScreenQuery = window.matchMedia('(max-width: 768px)');
 let selectedGenre = null;
 let selectedYear = null;
 let selectedRating = null;
@@ -190,6 +196,31 @@ let showFavoritesOnly = false;
 let currentPage = 1;
 let hasMorePagesToLoad = true;
 let isLoading = false;
+let mobileFiltersHidden;
+
+function updateMobileFiltersVisibility() {
+  // on mobile (mobileFiltersHidden=true), we want to hide the filters
+  if (onMobileScreenQuery.matches) {
+    // on mobile, toggle visibility based on state of the filters toggle
+    navContainer.classList.toggle('mobile-collapsed', mobileFiltersHidden);
+  } else {
+    navContainer.classList.remove('mobile-collapsed');
+  }
+}
+
+filtersToggle.addEventListener('click', () => {
+  mobileFiltersHidden = !mobileFiltersHidden;
+  updateMobileFiltersVisibility();
+});
+
+// add listener to handle screen size changes
+onMobileScreenQuery.addEventListener('change', (onMobile) => {
+  mobileFiltersHidden = onMobile.matches;
+  updateMobileFiltersVisibility();
+});
+
+mobileFiltersHidden = onMobileScreenQuery.matches;
+updateMobileFiltersVisibility();
 
 // Favorites toggle functionality
 const favoritesToggle = document.querySelector('#favorites-toggle');

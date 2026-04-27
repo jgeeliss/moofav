@@ -158,3 +158,4 @@ voor een productie build:
 
 ## Gebruikte bronnen
 - [chatlog met AI](./chatbot-conversation.md)
+- [Detect browser viewport size change using JavaScript's matchMedia method](https://stackoverflow.com/questions/76639699/how-to-detect-browser-viewport-size-change-using-javascripts-matchmedia-method)
