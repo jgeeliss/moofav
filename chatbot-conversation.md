@@ -8,6 +8,8 @@ The "previous" button logic in fetch.js uses a stack to track page tokens. When 
 
 The stack should only pop after fetching the previous page.
 
+Commit: [e83fa54](https://github.com/jgeeliss/moofav/commit/e83fa54)
+
 
 Q: popups are not being closed correctly after pressing the close-popup-button
 
@@ -18,6 +20,8 @@ To fix this, you should ensure that only one popup exists at a time by removing 
 Edited
 fetch.js+6-0
 The code now removes any existing popup before creating a new one, ensuring the close button always works and only one popup is present at a time. Please test the popup behavior—this should resolve the issue with popups not closing correctly. Let me know if you need further adjustments!
+
+Commit: [aed7979](https://github.com/jgeeliss/moofav/commit/aed7979)
 
 
 Q: fetching moviegenres doesn't work, or should be awaited
@@ -30,10 +34,14 @@ The function wasn't returning the fetch promise
 The result wasn't being awaited, so genres was undefined
 Changed to async/await pattern and stored result in a module-level genres array that gets populated when the async function completes
 
+Commit: [0cbb4be](https://github.com/jgeeliss/moofav/commit/0cbb4be)
+
 
 Q: hasMorePagesToLoad doesn't update correctly
 
 A: Fixed! Now hasMorePagesToLoad is properly updated with the return value from fetchIMDBData, which indicates whether there are more pages to load. When there are no more pages, the scroll listener will stop making additional requests.
+
+Commit: [e38723f](https://github.com/jgeeliss/moofav/commit/e38723f)
 
 
 Q: won't my load on scrolling down do parallel api calls?
@@ -54,6 +62,8 @@ Edited
 main.js+2-1
 Fixed! Now isLoading is properly declared and set to true before the API call, preventing parallel requests. The scroll event will be ignored while a fetch is in progress.
 
+Commit: [e38723f](https://github.com/jgeeliss/moofav/commit/e38723f)
+
 
 Q: movie images don't always fill the entire height
 
@@ -67,6 +77,8 @@ Edited
 style.css+2-2
 Fixed! Changed from max-width and max-height to fixed width and height with a 2:3 aspect ratio (16vw × 24vw), which is typical for movie posters. The object-fit: cover ensures images fill the space even if they have slightly different dimensions.
 
+Commit: [e38723f](https://github.com/jgeeliss/moofav/commit/e38723f)
+
 
 Q: when changing a filter, the entire movie container refreshes on insertAdjacentHTML, instead of only the movies
 
@@ -79,6 +91,8 @@ fetch.js+3-3
 Edited
 fetch.js+1-1
 Fixed! Now when you change a filter, the movie matrix will append the new page to the movie container and show only the filtered results (since filters trigger a new search starting at page 1). The insertAdjacentHTML will only append movies when loading additional pages (page 2, 3, etc.) for pagination.
+
+Commit: [51fbfef](https://github.com/jgeeliss/moofav/commit/51fbfef)
 
 
 Q: when page===1 it should only reload the images, but it refreshes the entire page
@@ -97,6 +111,8 @@ Edited
 main.js+0-3
 Fixed! I removed the movieContainer.innerHTML = '' lines from all three dropdown event listeners in main.js. Now when page === 1, the renderIMDBData function will only replace the images inside the #movie-matrix div instead of clearing the entire container, which should eliminate the page refresh effect.
 
+Commit: [51fbfef](https://github.com/jgeeliss/moofav/commit/51fbfef)
+
 
 Q:do I still need to keep checking on isLoading & hasMorePagesToLoad before loading more content now that I'm using the IntersectObserver?
 
@@ -111,6 +127,8 @@ These checks protect against:
 Multiple simultaneous requests (isLoading)
 Infinite requests when there's no more data (hasMorePagesToLoad)
 Both are essential regardless of whether you use scroll events or IntersectionObserver - they're about managing the data fetching state, not the scroll mechanism.
+
+Commit: [bda9ef0](https://github.com/jgeeliss/moofav/commit/bda9ef0)
 
 
 Q: sometimes movies have very long titles that suddenly make all the movie-items wider, that shouldn't happen
@@ -131,6 +149,8 @@ The essential changes that fix the issue are:
 .movie-title ellipsis properties (displays the truncation)
 .movie-details with min-width: 0 (allows flex shrinking)
 
+Commit: [8f4ea6b](https://github.com/jgeeliss/moofav/commit/8f4ea6b)
+
 
 Q: the show favoritesheart button and theme switcher are overlapping
 
@@ -147,10 +167,12 @@ Set width: auto and height: auto on the favorites button
 Removed display: inline and adjusted margins
 The buttons should now be properly aligned side-by-side without overlapping.
 
+Commit: [fc1557c](https://github.com/jgeeliss/moofav/commit/fc1557c)
+
 
 Q: Can you create a dictionary for translations that uses my updateLanguage function so that switching the language translates all the labels to Dutch?
 
-Q: I'll add a translations object and alter the updateLanguage function to update all the labels:
+A: I'll add a translations object and alter the updateLanguage function to update all the labels:
 
 Edited
 main.js+91-4
@@ -167,8 +189,12 @@ The system is extensible - you can easily add more translations by adding them t
 
 The language toggle now fully translates the UI between English (EN) and Dutch (NL)!
 
+Commit: [02af332](https://github.com/jgeeliss/moofav/commit/02af332)
+
 Q: when using the search, the other filters dissappear correctly, but the space where these were is not being cleared. Can you change the css to remove this empty space while using the search?
 
 A: I'll check the current CSS to understand the spacing issue with hidden filters during search.
 
 Found it. The issue is on line 246 of main.js:246 — it's using visibility: hidden which hides elements but preserves their layout space. Changing it to display: none will collapse the space entirely.
+
+Commit: [e839d70](https://github.com/jgeeliss/moofav/commit/e839d70)
