@@ -10,7 +10,7 @@ The stack should only pop after fetching the previous page.
 
 Commit: [e83fa54](https://github.com/jgeeliss/moofav/commit/e83fa54)
 
-
+---
 Q: popups are not being closed correctly after pressing the close-popup-button
 
 A: The issue is likely that each time you open a popup, a new element with the same id (movie-popup) is created, but only the most recently created one is removed when you click the close button. If multiple popups are opened, previous ones remain in the DOM.
@@ -23,7 +23,7 @@ The code now removes any existing popup before creating a new one, ensuring the 
 
 Commit: [aed7979](https://github.com/jgeeliss/moofav/commit/aed7979)
 
-
+---
 Q: fetching moviegenres doesn't work, or should be awaited
 
 A: Edited
@@ -36,14 +36,14 @@ Changed to async/await pattern and stored result in a module-level genres array 
 
 Commit: [0cbb4be](https://github.com/jgeeliss/moofav/commit/0cbb4be)
 
-
+---
 Q: hasMorePagesToLoad doesn't update correctly
 
 A: Fixed! Now hasMorePagesToLoad is properly updated with the return value from fetchIMDBData, which indicates whether there are more pages to load. When there are no more pages, the scroll listener will stop making additional requests.
 
 Commit: [e38723f](https://github.com/jgeeliss/moofav/commit/e38723f)
 
-
+---
 Q: won't my load on scrolling down do parallel api calls?
 
 A: Let me check your implementation to see if parallel API calls could occur.
@@ -64,7 +64,7 @@ Fixed! Now isLoading is properly declared and set to true before the API call, p
 
 Commit: [e38723f](https://github.com/jgeeliss/moofav/commit/e38723f)
 
-
+---
 Q: movie images don't always fill the entire height
 
 A: Let me check the current CSS styling for the movie images.
@@ -79,7 +79,7 @@ Fixed! Changed from max-width and max-height to fixed width and height with a 2:
 
 Commit: [e38723f](https://github.com/jgeeliss/moofav/commit/e38723f)
 
-
+---
 Q: when changing a filter, the entire movie container refreshes on insertAdjacentHTML, instead of only the movies
 
 A: Looking at the code, the issue is that insertAdjacentHTML always appends new content to existing movies. When you change a filter, you want to replace the movies, not append to them. Currently, this only happens correctly when there's no movie matrix yet.
@@ -94,7 +94,7 @@ Fixed! Now when you change a filter, the movie matrix will append the new page t
 
 Commit: [51fbfef](https://github.com/jgeeliss/moofav/commit/51fbfef)
 
-
+---
 Q: when page===1 it should only reload the images, but it refreshes the entire page
 
 A: I'll examine the fetch.js file to understand the issue with the page refresh.
@@ -113,7 +113,7 @@ Fixed! I removed the movieContainer.innerHTML = '' lines from all three dropdown
 
 Commit: [51fbfef](https://github.com/jgeeliss/moofav/commit/51fbfef)
 
-
+---
 Q:do I still need to keep checking on isLoading & hasMorePagesToLoad before loading more content now that I'm using the IntersectObserver?
 
 A: Yes, you still need both checks!
@@ -130,7 +130,7 @@ Both are essential regardless of whether you use scroll events or IntersectionOb
 
 Commit: [bda9ef0](https://github.com/jgeeliss/moofav/commit/bda9ef0)
 
-
+---
 Q: sometimes movies have very long titles that suddenly make all the movie-items wider, that shouldn't happen
 
 A: I'll check the current CSS styling for movie items to fix the issue with long titles expanding the width.
@@ -151,7 +151,7 @@ The essential changes that fix the issue are:
 
 Commit: [8f4ea6b](https://github.com/jgeeliss/moofav/commit/8f4ea6b)
 
-
+---
 Q: the show favoritesheart button and theme switcher are overlapping
 
 A: I see the issue. The .heart-button class has position: absolute which is meant for the heart button inside movie popups, but the favorites toggle is using the same class with inline styles. Let me fix this by adjusting the layout:
@@ -169,7 +169,7 @@ The buttons should now be properly aligned side-by-side without overlapping.
 
 Commit: [fc1557c](https://github.com/jgeeliss/moofav/commit/fc1557c)
 
-
+---
 Q: Can you create a dictionary for translations that uses my updateLanguage function so that switching the language translates all the labels to Dutch?
 
 A: I'll add a translations object and alter the updateLanguage function to update all the labels:
@@ -191,6 +191,7 @@ The language toggle now fully translates the UI between English (EN) and Dutch (
 
 Commit: [02af332](https://github.com/jgeeliss/moofav/commit/02af332)
 
+---
 Q: when using the search, the other filters dissappear correctly, but the space where these were is not being cleared. Can you change the css to remove this empty space while using the search?
 
 A: I'll check the current CSS to understand the spacing issue with hidden filters during search.
@@ -199,8 +200,8 @@ Found it. The issue is on line 246 of main.js:246 — it's using visibility: hid
 
 Commit: [e839d70](https://github.com/jgeeliss/moofav/commit/e839d70)
 
-
-Q: I refactored my code, can you  update all the references to the code examples in my README.md to reflect the new file structure and function names?
+---
+Q: I refactored my code, can you update all the references to the code examples in my README.md to reflect the new file structure and function names?
 
 A: I’ll update the README references to match the new module split by mapping each concept to its new file and current line numbers, then patch the README in one pass.
 
@@ -208,38 +209,30 @@ Ran terminal command: $i=1; Get-Content src/main.js | ForEach-Object {"{0,4}: {1
 
 Ran terminal command: $files = 'src/js/ui.js','src/js/state.js','src/js/filters.js','src/js/i18n.js','src/js/scrolling.js','src/js/fetch.js'; foreach ($f in $files) { Write-Output "`n=== $f ==="; $i=1; Get-Content $f | ForEach-Object {"{0,4}: {1}" -f $i,$_ ; $i++} }
 
-Read [](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/README.md)
+Read [README.md](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/README.md)
 
 I’ve collected main.js and the README; I still need the exact line numbers from each new module dump, so I’m reading the generated terminal output file next and then I’ll patch all README references.
 
-Read [](file:///c%3A/Users/jgeel/AppData/Roaming/Code/User/workspaceStorage/9967a63641d9decbe5bc9783d11a7bf4/GitHub.copilot-chat/chat-session-resources/a4f71eb8-a17a-4bc0-aded-ddd08d21d588/call_dWET30KTyP65PbRtKf0xgkOR__vscode-1778177742186/content.txt#1-1), lines 1 to 420
+Read [local chat session content](file:///c%3A/Users/jgeel/AppData/Roaming/Code/User/workspaceStorage/9967a63641d9decbe5bc9783d11a7bf4/GitHub.copilot-chat/chat-session-resources/a4f71eb8-a17a-4bc0-aded-ddd08d21d588/call_dWET30KTyP65PbRtKf0xgkOR__vscode-1778177742186/content.txt#1-1), lines 1 to 420
 
-Read [](file:///c%3A/Users/jgeel/AppData/Roaming/Code/User/workspaceStorage/9967a63641d9decbe5bc9783d11a7bf4/GitHub.copilot-chat/chat-session-resources/a4f71eb8-a17a-4bc0-aded-ddd08d21d588/call_dWET30KTyP65PbRtKf0xgkOR__vscode-1778177742186/content.txt#421-421), lines 421 to 602
+Read [local chat session content](file:///c%3A/Users/jgeel/AppData/Roaming/Code/User/workspaceStorage/9967a63641d9decbe5bc9783d11a7bf4/GitHub.copilot-chat/chat-session-resources/a4f71eb8-a17a-4bc0-aded-ddd08d21d588/call_dWET30KTyP65PbRtKf0xgkOR__vscode-1778177742186/content.txt#421-421), lines 421 to 602
 
 Searched for files matching `moofav` · `vite.config.*`, no matches
 
 I found all new line mappings and I’m now patching the README section so every code-example reference points to the new module locations and current line numbers.
 
-Generating patch (199 lines) in [](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/README.md)
+Generating patch (199 lines) in [README.md](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/README.md)
 
-
-```
-
-```
 I’ve applied the README rewrite; I’m doing one quick consistency sweep for stale line references (especially old main.js and high fetch.js line numbers) before finalizing.
 
 Searched for regex `main\.js:1[0-9]{2}|main\.js:2[0-9]{2}|main\.js:3[0-9]{2}|src/js/fetch\.js:2[4-9][0-9]|src/js/fetch\.js:3[0-9]{2}` (`**/README.md`), no results
 
 Searched for regex `src/js/fetch\.js:177` (`**/README.md`), 1 result
 
-Read [](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/README.md)
+Read [README.md](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/README.md)
 
-Generating patch (6 lines) in [](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/README.md)
+Generating patch (6 lines) in [README.md](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/README.md)
 
-
-```
-
-```
 Updated all README code example references to match your new modular structure.
 
 What I changed
@@ -269,22 +262,18 @@ Edited file
 
 If you want, I can also do a final polish pass to make the references more concise by using function names next to each line range, so it reads cleaner for grading.
 
-Commit: TBD
+Commit: [579feb7](https://github.com/jgeeliss/moofav/commit/579feb7)
 
-
+---
 Q: Yes, please do a final polish pass to make the references more concise.
 
 A: I’ll do that polish now by rewriting the README references to include function names next to the line ranges, so it reads cleaner for evaluation.
 
-Generating patch (222 lines) in [](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/README.md)
+Generating patch (222 lines) in [README.md](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/README.md)
 
-
-```
-
-```
 I finished the readability pass with function-name annotations throughout; I’ll do one quick diagnostics check on the README file, then I’ll summarize exactly what changed.
 
-Checked [](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/README.md), no problems found
+Checked [README.md](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/README.md), no problems found
 
 Completed. I polished the references in README.md so each code example now includes both:
 
@@ -302,5 +291,77 @@ Validation
 If you want, I can also generate a compact table section in README.md that maps requirement category -> file -> function in one quick overview block.
 
 Made changes
+
+Commit: [579feb7](https://github.com/jgeeliss/moofav/commit/579feb7)
+
+---
+Q: can you add jsdoc to all my functions?
+
+A: I’ll add JSDoc across your project’s JavaScript source files (main.js and `src/js/*.js`) and keep the comments concise but complete, then I’ll run diagnostics to ensure no issues.
+
+Searched for files matching `moofav` · `src/**/*.js`, 7 matches
+
+Read [main.js](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/src/main.js)
+
+Read [state.js](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/src/js/state.js)
+
+I’ve confirmed current names (including `createInitialAppState`), and next I’ll annotate every function in the remaining modules with JSDoc so coverage is complete.
+
+Read [ui.js](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/src/js/ui.js)
+
+Read [i18n.js](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/src/js/i18n.js)
+
+Read [filters.js](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/src/js/filters.js)
+
+Read [scrolling.js](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/src/js/scrolling.js)
+
+Read [fetch.js](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/src/js/fetch.js)
+
+I’m now inserting JSDoc blocks in each source module (including internal helper functions), and I’ll also document `refreshMovies` in main.js so coverage is truly all functions you wrote.
+
+Generating patch (38 lines) in [main.js](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/src/main.js)
+
+Generating patch (34 lines) in [state.js](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/src/js/state.js)
+
+Generating patch (83 lines) in [ui.js](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/src/js/ui.js)
+
+The JSDoc pass is halfway done; next I’m adding docs to i18n, filters, scrolling, and fetch (including helper functions) and then I’ll run error checks.
+
+Generating patch (37 lines) in [i18n.js](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/src/js/i18n.js)
+
+Generating patch (92 lines) in [filters.js](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/src/js/filters.js)
+
+Generating patch (14 lines) in [scrolling.js](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/src/js/scrolling.js)
+
+Generating patch (116 lines) in [fetch.js](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/src/js/fetch.js)
+
+I’ve added JSDoc to every defined function across your JS modules; I’m running diagnostics now to catch any type/comment syntax issues introduced by the annotations.
+
+Checked [main.js](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/src/main.js), [state.js](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/src/js/state.js), [ui.js](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/src/js/ui.js), [i18n.js](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/src/js/i18n.js), [filters.js](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/src/js/filters.js), [scrolling.js](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/src/js/scrolling.js), [fetch.js](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/src/js/fetch.js), no problems found
+
+Added JSDoc to all your project functions across the source modules.
+
+Updated files
+- main.js
+- state.js
+- ui.js
+- i18n.js
+- filters.js
+- scrolling.js
+- fetch.js
+
+What was documented
+1. Public exported functions in each module.
+2. Internal helper functions (for example in filters and fetch).
+3. Function params, return types, and short purpose descriptions.
+4. Your `onLoadMore` inline callback in main.js was extracted to a named `loadMoreMovies` function so it could be properly documented.
+
+Validation
+- Ran diagnostics on all changed JS files.
+- Result: no errors found.
+
+If you want, I can do a second pass to add small reusable typedefs (for `AppState`, `Movie`, `Genre`) to reduce repeated long JSDoc type blocks.
+
+Made changes.
 
 Commit: TBD

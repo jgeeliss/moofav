@@ -2,6 +2,11 @@ import translationsData from '../dictionary.json';
 
 let currentLanguage = 'en';
 
+/**
+ * Applies translated text labels and placeholders to UI controls.
+ * @param {string} lang - Language code (for example: "en" or "nl").
+ * @returns {void}
+ */
 export function updateLanguage(lang) {
   currentLanguage = lang;
   const t = translationsData[lang];
@@ -33,6 +38,11 @@ export function updateLanguage(lang) {
   document.querySelector('#filters-toggle').textContent = t.filters;
 }
 
+/**
+ * Initializes language toggle behavior and restores previous preference.
+ * @param {HTMLElement} languageToggle - Language toggle button element.
+ * @returns {void}
+ */
 export function setupLanguageToggle(languageToggle) {
   const savedLanguage = localStorage.getItem('language');
   if (savedLanguage) {
@@ -50,6 +60,10 @@ export function setupLanguageToggle(languageToggle) {
   });
 }
 
+/**
+ * Returns the active language code currently used by the app.
+ * @returns {string}
+ */
 export function getCurrentLanguage() {
   return currentLanguage;
 }

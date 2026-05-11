@@ -10,6 +10,10 @@ const languageOptions = [
   { zh: 'Chinese' },
 ];
 
+/**
+ * Renders the main app shell into the root app container.
+ * @returns {void}
+ */
 export function renderApp() {
   document.querySelector('#app').innerHTML = `
     <div>
@@ -72,6 +76,26 @@ export function renderApp() {
   `;
 }
 
+/**
+ * Returns cached references to frequently used UI elements.
+ * @returns {{
+ *   movieContainer: HTMLElement | null,
+ *   languageToggle: HTMLElement | null,
+ *   themeToggle: HTMLElement | null,
+ *   favoritesToggle: HTMLElement | null,
+ *   filtersToggle: HTMLElement | null,
+ *   navContainer: HTMLElement | null,
+ *   filtersContainer: HTMLElement | null,
+ *   searchContainer: HTMLElement | null,
+ *   searchInput: HTMLInputElement | null,
+ *   genreSelect: HTMLSelectElement | null,
+ *   yearSelect: HTMLSelectElement | null,
+ *   ratingSelect: HTMLSelectElement | null,
+ *   sortSelect: HTMLSelectElement | null,
+ *   languageSelect: HTMLSelectElement | null,
+ *   sentinel: HTMLElement | null
+ * }} UI element map.
+ */
 export function getAppElements() {
   return {
     movieContainer: document.querySelector('#movie-container'),
@@ -92,6 +116,12 @@ export function getAppElements() {
   };
 }
 
+/**
+ * Fills the genre dropdown from fetched API genres.
+ * @param {HTMLSelectElement} genreSelect - Target genre <select>.
+ * @param {Array<{ id: number, name: string }>} genres - Available genres.
+ * @returns {void}
+ */
 export function populateGenreOptions(genreSelect, genres) {
   genres.forEach((genre) => {
     const option = document.createElement('option');
@@ -101,6 +131,12 @@ export function populateGenreOptions(genreSelect, genres) {
   });
 }
 
+/**
+ * Fills the year dropdown from current year down to a start year.
+ * @param {HTMLSelectElement} yearSelect - Target year <select>.
+ * @param {number} [startYear=1900] - Earliest year shown.
+ * @returns {void}
+ */
 export function populateYearOptions(yearSelect, startYear = 1900) {
   const currentYear = new Date().getFullYear();
   for (let year = currentYear; year >= startYear; year--) {
@@ -111,6 +147,13 @@ export function populateYearOptions(yearSelect, startYear = 1900) {
   }
 }
 
+/**
+ * Fills the rating dropdown with inclusive numeric range.
+ * @param {HTMLSelectElement} ratingSelect - Target rating <select>.
+ * @param {number} [min=6] - Minimum rating.
+ * @param {number} [max=9] - Maximum rating.
+ * @returns {void}
+ */
 export function populateRatingOptions(ratingSelect, min = 6, max = 9) {
   for (let rating = min; rating <= max; rating++) {
     const option = document.createElement('option');
@@ -120,6 +163,11 @@ export function populateRatingOptions(ratingSelect, min = 6, max = 9) {
   }
 }
 
+/**
+ * Fills the language dropdown from the predefined language option list.
+ * @param {HTMLSelectElement} languageSelect - Target language <select>.
+ * @returns {void}
+ */
 export function populateLanguageOptions(languageSelect) {
   languageOptions.forEach((lang) => {
     const option = document.createElement('option');

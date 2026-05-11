@@ -39,6 +39,11 @@ populateYearOptions(elements.yearSelect)
 populateRatingOptions(elements.ratingSelect)
 populateLanguageOptions(elements.languageSelect)
 
+/**
+ * Fetches and renders movies for the current app state and a target page.
+ * @param {number} [page=1] - Page number to request from the API.
+ * @returns {Promise<boolean>} Resolves to whether more pages are available.
+ */
 const refreshMovies = (page = 1) => {
   return fetchIMDBData(
     elements.movieContainer,
@@ -74,13 +79,19 @@ setupSearchAndFilterListeners({
   refreshMovies,
 })
 
+/**
+ * Loads the next page when infinite scroll requests more content.
+ * @returns {Promise<boolean>} Resolves to whether more pages are available.
+ */
+const loadMoreMovies = () => {
+  state.currentPage++
+  return refreshMovies(state.currentPage)
+}
+
 setupInfiniteScroll({
   sentinel: elements.sentinel,
   state,
-  onLoadMore: () => {
-    state.currentPage++
-    return refreshMovies(state.currentPage)
-  },
+  onLoadMore: loadMoreMovies,
 })
 
 refreshMovies(1).then((hasMore) => {

@@ -1,5 +1,10 @@
 import { resetPagination } from './state.js';
 
+/**
+ * Initializes the theme toggle and persists user theme preference.
+ * @param {HTMLElement} themeToggle - Theme toggle button element.
+ * @returns {void}
+ */
 export function setupThemeToggle(themeToggle) {
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme === 'light') {
@@ -15,10 +20,19 @@ export function setupThemeToggle(themeToggle) {
   });
 }
 
+/**
+ * Sets up mobile filter collapse/expand behavior based on viewport width.
+ * @param {{ filtersToggle: HTMLElement, navContainer: HTMLElement }} params - UI refs.
+ * @returns {void}
+ */
 export function setupMobileFilters({ filtersToggle, navContainer }) {
   const onMobileScreenQuery = window.matchMedia('(max-width: 768px)');
   let mobileFiltersHidden = onMobileScreenQuery.matches;
 
+  /**
+   * Synchronizes filter container visibility with current viewport and toggle state.
+   * @returns {void}
+   */
   function updateMobileFiltersVisibility() {
     if (onMobileScreenQuery.matches) {
       navContainer.classList.toggle('mobile-collapsed', mobileFiltersHidden);
@@ -40,6 +54,21 @@ export function setupMobileFilters({ filtersToggle, navContainer }) {
   updateMobileFiltersVisibility();
 }
 
+/**
+ * Configures favorites-only toggle and triggers refresh when changed.
+ * @param {{
+ *   favoritesToggle: HTMLElement,
+ *   filtersContainer: HTMLElement,
+ *   searchContainer: HTMLElement,
+ *   state: {
+ *     showFavoritesOnly: boolean,
+ *     currentPage: number,
+ *     hasMorePagesToLoad: boolean
+ *   },
+ *   refreshMovies: (page: number) => Promise<boolean>
+ * }} params - Required UI refs and state handlers.
+ * @returns {void}
+ */
 export function setupFavoritesToggle({
   favoritesToggle,
   filtersContainer,
@@ -61,6 +90,30 @@ export function setupFavoritesToggle({
   });
 }
 
+/**
+ * Binds search and dropdown filters to state updates and first-page reloads.
+ * @param {{
+ *   searchInput: HTMLInputElement,
+ *   filtersContainer: HTMLElement,
+ *   genreSelect: HTMLSelectElement,
+ *   yearSelect: HTMLSelectElement,
+ *   ratingSelect: HTMLSelectElement,
+ *   sortSelect: HTMLSelectElement,
+ *   languageSelect: HTMLSelectElement,
+ *   state: {
+ *     searchQuery: string | null,
+ *     selectedGenre: string | null,
+ *     selectedYear: string | null,
+ *     selectedRating: string | null,
+ *     selectedSort: string,
+ *     selectedLanguage: string | null,
+ *     currentPage: number,
+ *     hasMorePagesToLoad: boolean
+ *   },
+ *   refreshMovies: (page: number) => Promise<boolean>
+ * }} params - UI refs, state object and refresh callback.
+ * @returns {void}
+ */
 export function setupSearchAndFilterListeners({
   searchInput,
   filtersContainer,
@@ -72,6 +125,11 @@ export function setupSearchAndFilterListeners({
   state,
   refreshMovies,
 }) {
+  /**
+   * Applies a filter mutation and refreshes results from page 1.
+   * @param {() => void} updateCallback - State mutation callback.
+   * @returns {void}
+   */
   function applyFilterChange(updateCallback) {
     updateCallback();
     resetPagination(state);

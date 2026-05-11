@@ -1,13 +1,26 @@
-
+/**
+ * Reads favorite movie IDs from local storage.
+ * @returns {number[]} Array of favorite TMDB movie IDs.
+ */
 export function getFavorites() {
   const favorites = localStorage.getItem('moofav-favorites');
   return favorites ? JSON.parse(favorites) : [];
 }
 
+/**
+ * Persists favorite movie IDs to local storage.
+ * @param {number[]} favorites - Favorite movie ID list.
+ * @returns {void}
+ */
 function saveFavorites(favorites) {
   localStorage.setItem('moofav-favorites', JSON.stringify(favorites));
 }
 
+/**
+ * Adds a movie ID to favorites when not present yet.
+ * @param {{ id: number }} movie - Movie object containing an ID.
+ * @returns {void}
+ */
 function addToFavorites(movie) {
   const favorites = getFavorites();
   // Check if movie is already in favorites
@@ -18,18 +31,31 @@ function addToFavorites(movie) {
   }
 }
 
+/**
+ * Removes a movie ID from favorites.
+ * @param {number} movieId - Movie ID to remove.
+ * @returns {void}
+ */
 function removeFromFavorites(movieId) {
   const favorites = getFavorites();
   const updatedFavorites = favorites.filter(favId => favId !== movieId);
   saveFavorites(updatedFavorites);
 }
 
+/**
+ * Checks whether a movie is currently marked as favorite.
+ * @param {number} movieId - Movie ID to check.
+ * @returns {boolean} True when movie ID exists in favorites.
+ */
 function isFavorite(movieId) {
   const favorites = getFavorites();
   return favorites.includes(movieId);
 }
 
-// Fetch genres from IMDB API
+/**
+ * Fetches available movie genres from the TMDB API.
+ * @returns {Promise<Array<{ id: number, name: string }>>} Genre objects.
+ */
 export async function getMovieGenres() {
   const url = 'https://api.themoviedb.org/3/genre/movie/list?api_key=0f0bf386975247347f8ced16ab3804e7';
   try {
@@ -43,7 +69,20 @@ export async function getMovieGenres() {
   }
 }
 
-// Helper to show popup
+/**
+ * Renders and opens a popup with detailed movie information.
+ * @param {{
+ *   id: number,
+ *   title?: string,
+ *   poster_path?: string,
+ *   release_date?: string,
+ *   vote_average?: number,
+ *   overview?: string,
+ *   genre_ids?: number[]
+ * }} movie - Movie to display.
+ * @param {Array<{ id: number, name: string }>} genres - Full genre lookup list.
+ * @returns {void}
+ */
 function showMoviePopup(movie, genres) {
   // first remove existing popup!
   const existingPopup = document.getElementById('movie-popup');
@@ -101,7 +140,13 @@ function showMoviePopup(movie, genres) {
   });
 }
 
-// Render function for api data
+/**
+ * Renders API movie results into the grid and wires item click handlers.
+ * @param {HTMLElement} element - Container where movies are rendered.
+ * @param {{ results?: Array<any>, page?: number, total_pages?: number }} data - API payload.
+ * @param {Array<{ id: number, name: string }>} genres - Full genre lookup list.
+ * @returns {void}
+ */
 function renderIMDBData(element, data, genres) {
   if (data && Array.isArray(data.results)) {
     // Show movies in a list with details
@@ -177,6 +222,21 @@ function renderIMDBData(element, data, genres) {
   }
 }
 
+/**
+ * Fetches movie data (all movies, search results, or favorites), renders it,
+ * and resolves whether more pages are available.
+ * @param {HTMLElement} element - Target container for rendered movies.
+ * @param {number} page - API page number.
+ * @param {Array<{ id: number, name: string }>} genres - Full genre lookup list.
+ * @param {string | null} [genre=null] - Selected genre filter.
+ * @param {string | null} [year=null] - Selected release year filter.
+ * @param {string | null} [rating=null] - Minimum rating filter.
+ * @param {string | null} [language=null] - Original language filter.
+ * @param {string} [sort='popularity.desc'] - TMDB sort key.
+ * @param {string | null} [searchQuery=null] - Search query.
+ * @param {boolean} [favoritesOnly=false] - Whether to load favorites only.
+ * @returns {Promise<boolean>} True when additional pages can be loaded.
+ */
 export const fetchIMDBData = (element, page, genres, genre = null, year = null, rating = null, language = null, sort = 'popularity.desc', searchQuery = null, favoritesOnly = false) => {
   // If showing favorites only, fetch favorite movies by ID
   if (favoritesOnly) {
