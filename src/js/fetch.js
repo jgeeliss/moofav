@@ -25,7 +25,12 @@ export async function getMovieGenres() {
  * @param {string} [sort='popularity.desc'] - TMDB sort key.
  * @param {string | null} [searchQuery=null] - Search query.
  * @param {boolean} [favoritesOnly=false] - Whether to load favorites only.
- * @returns {Promise<boolean>} True when additional pages can be loaded.
+ * @returns {Promise<{
+ *   data: { results: Array<any>, page: number, total_pages: number } | null,
+ *   hasMorePagesToLoad: boolean,
+ *   emptyFavorites?: boolean,
+ *   errorMessage?: string
+ * }>} Fetch payload with metadata.
  */
 export async function fetchIMDBData(page, genre = null, year = null, rating = null, language = null, sort = 'popularity.desc', searchQuery = null, favoritesOnly = false) {
   if (favoritesOnly) {

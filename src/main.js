@@ -45,7 +45,7 @@ populateRatingOptions(elements.ratingSelect)
 populateLanguageOptions(elements.languageSelect)
 
 /**
- * Fetches and renders movies for the current app state and a target page.
+ * Fetches movie payload for current state and delegates rendering to UI module.
  * @param {number} [page=1] - Page number to request from the API.
  * @returns {Promise<boolean>} Resolves to whether more pages are available.
  */
