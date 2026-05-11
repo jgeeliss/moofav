@@ -364,4 +364,4 @@ If you want, I can do a second pass to add small reusable typedefs (for `AppStat
 
 Made changes.
 
-Commit: TBD
+Commit: [1b2a77f](https://github.com/jgeeliss/moofav/commit/1b2a77f)

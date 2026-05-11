@@ -3,6 +3,11 @@ import './css/dark-theme.css'
 import './css/light-theme.css'
 import './css/mobile.css'
 import { fetchIMDBData, getMovieGenres } from './js/fetch.js'
+import {
+  renderEmptyFavoritesMessage,
+  renderErrorMessage,
+  renderMovies,
+} from './js/movieRenderer.js'
 import { setupLanguageToggle } from './js/i18n.js'
 import { createInitialAppState } from './js/state.js'
 import {
@@ -44,11 +49,9 @@ populateLanguageOptions(elements.languageSelect)
  * @param {number} [page=1] - Page number to request from the API.
  * @returns {Promise<boolean>} Resolves to whether more pages are available.
  */
-const refreshMovies = (page = 1) => {
-  return fetchIMDBData(
-    elements.movieContainer,
+const refreshMovies = async (page = 1) => {
+  const result = await fetchIMDBData(
     page,
-    genres,
     state.selectedGenre,
     state.selectedYear,
     state.selectedRating,
@@ -57,6 +60,19 @@ const refreshMovies = (page = 1) => {
     state.searchQuery,
     state.showFavoritesOnly
   )
+
+  if (result.errorMessage) {
+    renderErrorMessage(elements.movieContainer, result.errorMessage)
+    return false
+  }
+
+  if (result.emptyFavorites) {
+    renderEmptyFavoritesMessage(elements.movieContainer)
+    return false
+  }
+
+  renderMovies(elements.movieContainer, result.data, genres)
+  return result.hasMorePagesToLoad
 }
 
 setupFavoritesToggle({

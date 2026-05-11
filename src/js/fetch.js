@@ -1,68 +1,13 @@
-/**
- * Reads favorite movie IDs from local storage.
- * @returns {number[]} Array of favorite TMDB movie IDs.
- */
-export function getFavorites() {
-  const favorites = localStorage.getItem('moofav-favorites');
-  return favorites ? JSON.parse(favorites) : [];
-}
-
-/**
- * Persists favorite movie IDs to local storage.
- * @param {number[]} favorites - Favorite movie ID list.
- * @returns {void}
- */
-function saveFavorites(favorites) {
-  localStorage.setItem('moofav-favorites', JSON.stringify(favorites));
-}
-
-/**
- * Adds a movie ID to favorites when not present yet.
- * @param {{ id: number }} movie - Movie object containing an ID.
- * @returns {void}
- */
-function addToFavorites(movie) {
-  const favorites = getFavorites();
-  // Check if movie is already in favorites
-  const notFavoriteYet = !favorites.includes(movie.id);
-  if (notFavoriteYet) {
-    favorites.push(movie.id);
-    saveFavorites(favorites);
-  }
-}
-
-/**
- * Removes a movie ID from favorites.
- * @param {number} movieId - Movie ID to remove.
- * @returns {void}
- */
-function removeFromFavorites(movieId) {
-  const favorites = getFavorites();
-  const updatedFavorites = favorites.filter(favId => favId !== movieId);
-  saveFavorites(updatedFavorites);
-}
-
-/**
- * Checks whether a movie is currently marked as favorite.
- * @param {number} movieId - Movie ID to check.
- * @returns {boolean} True when movie ID exists in favorites.
- */
-function isFavorite(movieId) {
-  const favorites = getFavorites();
-  return favorites.includes(movieId);
-}
+import { getFavorites } from './favorites.js';
+import { fetchMovieGenres, fetchMovies, fetchMoviesByIds } from './moviesApi.js';
 
 /**
  * Fetches available movie genres from the TMDB API.
  * @returns {Promise<Array<{ id: number, name: string }>>} Genre objects.
  */
 export async function getMovieGenres() {
-  const url = 'https://api.themoviedb.org/3/genre/movie/list?api_key=0f0bf386975247347f8ced16ab3804e7';
   try {
-    const response = await fetch(url);
-    const data = await response.json();
-    const genres = data.genres;
-    return genres;
+    return await fetchMovieGenres();
   } catch (error) {
     console.error('Error fetching genres:', error);
     return [];
@@ -70,164 +15,9 @@ export async function getMovieGenres() {
 }
 
 /**
- * Renders and opens a popup with detailed movie information.
- * @param {{
- *   id: number,
- *   title?: string,
- *   poster_path?: string,
- *   release_date?: string,
- *   vote_average?: number,
- *   overview?: string,
- *   genre_ids?: number[]
- * }} movie - Movie to display.
- * @param {Array<{ id: number, name: string }>} genres - Full genre lookup list.
- * @returns {void}
- */
-function showMoviePopup(movie, genres) {
-  // first remove existing popup!
-  const existingPopup = document.getElementById('movie-popup');
-  if (existingPopup) {
-    existingPopup.remove();
-  }
-  let genreNames = '';
-  movie.genre_ids.forEach(id => {
-    const genre = genres.find(g => g.id === id);
-    if (genre) {
-      genreNames += genre.name + ', ';
-    }
-  });
-  genreNames = genreNames.slice(0, -2); // Remove trailing comma and space
-  const popup = document.createElement('div');
-  popup.id = 'movie-popup';
-
-  // Check if movie is already in favorites
-  const isFav = isFavorite(movie.id);
-
-  popup.innerHTML = `
-    <div id="movie-popup-container">
-      <button id="favorite-button" class="heart-button ${isFav ? 'favorite' : ''}">♥</button>
-      <img id="movie-popup-image" src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}">
-      <h2>${movie.title || ''}</h2>
-      <p><strong>Year:</strong> ${movie.release_date ? movie.release_date.split('-')[0] : 'n/a'}</p>
-      <p><strong>Genres:</strong> ${genreNames || 'n/a'}</p>
-      <p><strong>Rating:</strong> ${movie.vote_average ? movie.vote_average.toFixed(1) : 'n/a'}</p>
-      <p><strong>Plot:</strong> ${movie.overview || 'n/a'}</p>
-      <button id="close-popup-button" class="nav-button">Close</button>
-    </div>
-  `;
-  document.body.appendChild(popup);
-
-  // Favorite button handler
-  const favoriteButton = document.getElementById('favorite-button');
-  favoriteButton.onclick = () => {
-    if (isFavorite(movie.id)) {
-      removeFromFavorites(movie.id);
-      favoriteButton.classList.remove('favorite');
-    } else {
-      addToFavorites(movie);
-      favoriteButton.classList.add('favorite');
-    }
-  };
-
-  // Close button handler
-  document.getElementById('close-popup-button').onclick = () => popup.remove();
-
-  // Close popup when clicking outside the container
-  popup.addEventListener('click', (e) => {
-    if (e.target.id === 'movie-popup') {
-      popup.remove();
-    }
-  });
-}
-
-/**
- * Renders API movie results into the grid and wires item click handlers.
- * @param {HTMLElement} element - Container where movies are rendered.
- * @param {{ results?: Array<any>, page?: number, total_pages?: number }} data - API payload.
- * @param {Array<{ id: number, name: string }>} genres - Full genre lookup list.
- * @returns {void}
- */
-function renderIMDBData(element, data, genres) {
-  if (data && Array.isArray(data.results)) {
-    // Show movies in a list with details
-    const movieItems = data.results.map(movie => {
-      if (movie.poster_path) {
-        const imgUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
-        const year = movie.release_date ? movie.release_date.split('-')[0] : 'n/a';
-        const rating = movie.vote_average ? movie.vote_average.toFixed(1) : 'n/a';
-
-        // Get genre names
-        let genreNames = '';
-        if (movie.genre_ids && movie.genre_ids.length > 0) {
-          genreNames = movie.genre_ids.map(id => {
-            const genre = genres.find(g => g.id === id);
-            return genre ? genre.name : '';
-          }).filter(name => name).join(', ');
-        }
-        if (!genreNames) genreNames = 'n/a';
-
-        const plot = movie.overview || 'n/a`';
-
-        return `
-          <div class="movie-item" data-id="${movie.id}">
-            <img class="movie-img" src="${imgUrl}" alt="${movie.title}">
-            <div class="movie-details">
-              <h2 class="movie-title">${movie.title}</h2>
-              <div class="movie-meta">
-                <span><strong>Year:&nbsp;</strong> ${year}</span>
-                <span><strong>Rating:&nbsp;</strong> ${rating}</span>
-                <span><strong>Vote Count:&nbsp;</strong> ${movie.vote_count}</span>
-                <span><strong>Language:&nbsp;</strong> ${movie.original_language}</span>
-              </div>
-              <span><strong>Genres:</strong> ${genreNames}</span>
-            </div>
-          </div>
-        `;
-      }
-    }).join('');
-
-    // Get or create movie matrix
-    let movieMatrix = element.querySelector('#movie-matrix');
-
-    // start from scratch if no movie matrix
-    if (!movieMatrix) {
-      const html = `<div id="movie-matrix">${movieItems}</div>`;
-      element.innerHTML = html;
-      movieMatrix = element.querySelector('#movie-matrix');
-      // on first page (=filter change) only replace the old items with the new ones
-    } else if (data.page === 1) {
-      movieMatrix.innerHTML = movieItems;
-    } else {
-      // insertAdjacentHTML adds the new HTML without removing existing content
-      movieMatrix.insertAdjacentHTML('beforeend', movieItems);
-    }
-
-    // Add click event to all movie items
-    const movieItemElements = element.querySelectorAll('.movie-item');
-    movieItemElements.forEach(item => {
-      if (!item.dataset.hasListener) {
-        item.dataset.hasListener = 'true';
-        item.addEventListener('click', function () {
-          const movieId = this.getAttribute('data-id');
-          const movie = data.results.find(m => m.id === parseInt(movieId));
-          if (movie) {
-            showMoviePopup(movie, genres);
-          }
-        });
-      }
-    });
-  } else {
-    // for debugging purposes:
-    element.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-  }
-}
-
-/**
- * Fetches movie data (all movies, search results, or favorites), renders it,
- * and resolves whether more pages are available.
- * @param {HTMLElement} element - Target container for rendered movies.
+ * Fetches movie data (all movies, search results, or favorites) and resolves
+ * payload metadata for the UI layer to render.
  * @param {number} page - API page number.
- * @param {Array<{ id: number, name: string }>} genres - Full genre lookup list.
  * @param {string | null} [genre=null] - Selected genre filter.
  * @param {string | null} [year=null] - Selected release year filter.
  * @param {string | null} [rating=null] - Minimum rating filter.
@@ -237,62 +27,60 @@ function renderIMDBData(element, data, genres) {
  * @param {boolean} [favoritesOnly=false] - Whether to load favorites only.
  * @returns {Promise<boolean>} True when additional pages can be loaded.
  */
-export const fetchIMDBData = (element, page, genres, genre = null, year = null, rating = null, language = null, sort = 'popularity.desc', searchQuery = null, favoritesOnly = false) => {
-  // If showing favorites only, fetch favorite movies by ID
+export async function fetchIMDBData(page, genre = null, year = null, rating = null, language = null, sort = 'popularity.desc', searchQuery = null, favoritesOnly = false) {
   if (favoritesOnly) {
     const favorites = getFavorites();
     if (favorites.length === 0) {
-      element.innerHTML = '<div id="movie-matrix"><p>No favorite movies yet. Click the heart on any movie to add it to your favorites!</p></div>';
-      // return a resolved promise with false to indicate no more pages
-      return Promise.resolve(false);
+      return {
+        data: {
+          results: [],
+          page: 1,
+          total_pages: 1,
+        },
+        hasMorePagesToLoad: false,
+        emptyFavorites: true,
+      };
     }
 
-    // Fetch favorite movies (TMDB API doesn't support multiple IDs, so we fetch individually)
-    const moviePromises = favorites.map(id =>
-      fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=0f0bf386975247347f8ced16ab3804e7`)
-        .then(response => response.json())
-    );
-
-    return Promise.all(moviePromises)
-      .then(movies => {
-        const data = {
+    try {
+      const movies = await fetchMoviesByIds(favorites);
+      return {
+        data: {
           results: movies,
           page: 1,
-          total_pages: 1
-        };
-        renderIMDBData(element, data, genres);
-        return false; // No more pages to load
-      })
-      .catch(error => {
-        element.innerHTML = `<span class="error-msg">Error fetching favorite movies: ${error}</span>`;
-        return false;
-      });
+          total_pages: 1,
+        },
+        hasMorePagesToLoad: false,
+      };
+    } catch (error) {
+      return {
+        data: null,
+        hasMorePagesToLoad: false,
+        errorMessage: `Error fetching favorite movies: ${error}`,
+      };
+    }
   }
 
-  let url;
-  if (searchQuery) {
-    url = `https://api.themoviedb.org/3/search/movie?query=${searchQuery}&api_key=0f0bf386975247347f8ced16ab3804e7`;
-  } else {
-    // set vote_count to min 1.000 and in English to filter out obscure movies with wrong data
-    url = 'https://api.themoviedb.org/3/discover/movie?vote_count.gte=1000&with_original_language=en&api_key=0f0bf386975247347f8ced16ab3804e7';
-    genre && (url += `&with_genres=${genre}`);
-    year && (url += `&primary_release_year=${year}`);
-    rating && (url += `&vote_average.gte=${rating}`);
-    language && (url += `&with_original_language=${language}`);
-    sort && (url += `&sort_by=${sort}`);
-  }
-  page && (url += `&page=${page}`);
-
-  return fetch(url)
-    .then(response => response.json())
-    .then(data => {
-      // append movies to current list unless we're on the first page
-      renderIMDBData(element, data, genres);
-      const morePagesToLoad = data.page < data.total_pages;
-      return morePagesToLoad;
-    })
-    .catch(error => {
-      element.innerHTML = `<span class="error-msg">Error fetching IMDB data: ${error}</span>`;
-      return false;
+  try {
+    const data = await fetchMovies({
+      page,
+      genre,
+      year,
+      rating,
+      language,
+      sort,
+      searchQuery,
     });
+
+    return {
+      data,
+      hasMorePagesToLoad: data.page < data.total_pages,
+    };
+  } catch (error) {
+    return {
+      data: null,
+      hasMorePagesToLoad: false,
+      errorMessage: `Error fetching IMDB data: ${error}`,
+    };
+  }
 }
