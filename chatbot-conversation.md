@@ -198,3 +198,109 @@ A: I'll check the current CSS to understand the spacing issue with hidden filter
 Found it. The issue is on line 246 of main.js:246 — it's using visibility: hidden which hides elements but preserves their layout space. Changing it to display: none will collapse the space entirely.
 
 Commit: [e839d70](https://github.com/jgeeliss/moofav/commit/e839d70)
+
+
+Q: I refactored my code, can you  update all the references to the code examples in my README.md to reflect the new file structure and function names?
+
+A: I’ll update the README references to match the new module split by mapping each concept to its new file and current line numbers, then patch the README in one pass.
+
+Ran terminal command: $i=1; Get-Content src/main.js | ForEach-Object {"{0,4}: {1}" -f $i,$_ ; $i++}
+
+Ran terminal command: $files = 'src/js/ui.js','src/js/state.js','src/js/filters.js','src/js/i18n.js','src/js/scrolling.js','src/js/fetch.js'; foreach ($f in $files) { Write-Output "`n=== $f ==="; $i=1; Get-Content $f | ForEach-Object {"{0,4}: {1}" -f $i,$_ ; $i++} }
+
+Read [](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/README.md)
+
+I’ve collected main.js and the README; I still need the exact line numbers from each new module dump, so I’m reading the generated terminal output file next and then I’ll patch all README references.
+
+Read [](file:///c%3A/Users/jgeel/AppData/Roaming/Code/User/workspaceStorage/9967a63641d9decbe5bc9783d11a7bf4/GitHub.copilot-chat/chat-session-resources/a4f71eb8-a17a-4bc0-aded-ddd08d21d588/call_dWET30KTyP65PbRtKf0xgkOR__vscode-1778177742186/content.txt#1-1), lines 1 to 420
+
+Read [](file:///c%3A/Users/jgeel/AppData/Roaming/Code/User/workspaceStorage/9967a63641d9decbe5bc9783d11a7bf4/GitHub.copilot-chat/chat-session-resources/a4f71eb8-a17a-4bc0-aded-ddd08d21d588/call_dWET30KTyP65PbRtKf0xgkOR__vscode-1778177742186/content.txt#421-421), lines 421 to 602
+
+Searched for files matching `moofav` · `vite.config.*`, no matches
+
+I found all new line mappings and I’m now patching the README section so every code-example reference points to the new module locations and current line numbers.
+
+Generating patch (199 lines) in [](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/README.md)
+
+
+```
+
+```
+I’ve applied the README rewrite; I’m doing one quick consistency sweep for stale line references (especially old main.js and high fetch.js line numbers) before finalizing.
+
+Searched for regex `main\.js:1[0-9]{2}|main\.js:2[0-9]{2}|main\.js:3[0-9]{2}|src/js/fetch\.js:2[4-9][0-9]|src/js/fetch\.js:3[0-9]{2}` (`**/README.md`), no results
+
+Searched for regex `src/js/fetch\.js:177` (`**/README.md`), 1 result
+
+Read [](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/README.md)
+
+Generating patch (6 lines) in [](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/README.md)
+
+
+```
+
+```
+Updated all README code example references to match your new modular structure.
+
+What I changed
+1. Replaced outdated main.js references with the new module locations:
+- ui.js
+- state.js
+- filters.js
+- i18n.js
+- scrolling.js
+- main.js
+
+2. Updated line numbers across the full technical section:
+- DOM manipulatie
+- Modern JavaScript
+- Data & API
+- Opslag & validatie
+- Styling & layout
+- Tooling & structuur
+
+3. Removed the stale vite.config.js reference and replaced it with your actual Vite entry usage in main.js.
+
+4. Fixed one remaining stale fetch reference:
+- Changed .find reference from 177 to 167 in README.md.
+
+Edited file
+- README.md
+
+If you want, I can also do a final polish pass to make the references more concise by using function names next to each line range, so it reads cleaner for grading.
+
+Commit: TBD
+
+
+Q: Yes, please do a final polish pass to make the references more concise.
+
+A: I’ll do that polish now by rewriting the README references to include function names next to the line ranges, so it reads cleaner for evaluation.
+
+Generating patch (222 lines) in [](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/README.md)
+
+
+```
+
+```
+I finished the readability pass with function-name annotations throughout; I’ll do one quick diagnostics check on the README file, then I’ll summarize exactly what changed.
+
+Checked [](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/README.md), no problems found
+
+Completed. I polished the references in README.md so each code example now includes both:
+
+1. The file and line range
+2. The function name where that concept is implemented
+
+What this improved
+1. Faster grading readability: examples now point to concrete functions like updateLanguage, setupThemeToggle, setupSearchAndFilterListeners, setupInfiniteScroll, renderIMDBData, fetchIMDBData.
+2. Better traceability after refactor: references align with your new module split instead of old monolithic mapping.
+3. Cleaner structure section: module roles are now explicitly tied to line ranges.
+
+Validation
+1. Checked README.md diagnostics: no errors found.
+
+If you want, I can also generate a compact table section in README.md that maps requirement category -> file -> function in one quick overview block.
+
+Made changes
+
+Commit: TBD
