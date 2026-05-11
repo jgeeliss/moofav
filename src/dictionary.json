@@ -23,7 +23,7 @@
     "toggleTheme": "Toggle theme"
   },
   "nl": {
-    "search": "Zoeken:",
+    "search": "Zoek:",
     "searchPlaceholder": "Zoek films...",
     "genre": "Genre:",
     "allGenres": "Alle Genres",
@@ -33,7 +33,7 @@
     "allRatings": "Alle Beoordelingen",
     "language": "Taal:",
     "allLanguages": "Alle Talen",
-    "sortBy": "Sorteren op:",
+    "sortBy": "Sorteer op:",
     "popularity": "Populariteit",
     "ratingHighLow": "Beoordeling (Hoog naar Laag)",
     "ratingLowHigh": "Beoordeling (Laag naar Hoog)",

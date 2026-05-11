@@ -178,7 +178,6 @@ function renderIMDBData(element, data, genres) {
 }
 
 export const fetchIMDBData = (element, page, genres, genre = null, year = null, rating = null, language = null, sort = 'popularity.desc', searchQuery = null, favoritesOnly = false) => {
-
   // If showing favorites only, fetch favorite movies by ID
   if (favoritesOnly) {
     const favorites = getFavorites();
