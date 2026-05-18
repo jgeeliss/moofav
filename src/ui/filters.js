@@ -1,4 +1,4 @@
-import { resetPagination } from './state.js';
+import { resetPagination } from '../state/state.js';
 
 /**
  * Initializes the theme toggle and persists user theme preference.

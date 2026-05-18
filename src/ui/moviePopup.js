@@ -1,4 +1,4 @@
-import { addToFavorites, isFavorite, removeFromFavorites } from './favorites.js';
+import { addToFavorites, isFavorite, removeFromFavorites } from '../data/favorites.js';
 
 /**
  * Renders and opens a popup with detailed movie information.

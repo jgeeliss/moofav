@@ -2,14 +2,14 @@ import './css/style.css'
 import './css/dark-theme.css'
 import './css/light-theme.css'
 import './css/mobile.css'
-import { fetchIMDBData, getMovieGenres } from './js/fetch.js'
+import { fetchIMDBData, getMovieGenres } from './data/fetch.js'
 import {
   renderEmptyFavoritesMessage,
   renderErrorMessage,
   renderMovies,
-} from './js/movieRenderer.js'
-import { setupLanguageToggle } from './js/i18n.js'
-import { createInitialAppState } from './js/state.js'
+} from './ui/movieRenderer.js'
+import { setupLanguageToggle } from './ui/i18n.js'
+import { createInitialAppState } from './state/state.js'
 import {
   getAppElements,
   populateGenreOptions,
@@ -17,14 +17,14 @@ import {
   populateRatingOptions,
   populateYearOptions,
   renderApp,
-} from './js/ui.js'
+} from './ui/ui.js'
 import {
   setupFavoritesToggle,
   setupMobileFilters,
   setupSearchAndFilterListeners,
   setupThemeToggle,
-} from './js/filters.js'
-import { setupInfiniteScroll } from './js/scrolling.js'
+} from './ui/filters.js'
+import { setupInfiniteScroll } from './ui/scrolling.js'
 
 renderApp()
 
