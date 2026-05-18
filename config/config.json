@@ -1,0 +1,11 @@
+{
+  "tmdb": {
+    "baseUrl": "https://api.themoviedb.org/3",
+    "apiKey": "0f0bf386975247347f8ced16ab3804e7",
+    "defaults": {
+      "sortBy": "popularity.desc",
+      "language": "en",
+      "minVoteCount": 1000
+    }
+  }
+}

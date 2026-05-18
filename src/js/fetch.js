@@ -1,5 +1,8 @@
 import { getFavorites } from './favorites.js';
 import { fetchMovieGenres, fetchMovies, fetchMoviesByIds } from './moviesApi.js';
+import appConfig from '../../config/config.json';
+
+const DEFAULT_SORT = appConfig.tmdb.defaults.sortBy;
 
 /**
  * Fetches available movie genres from the TMDB API.
@@ -22,7 +25,7 @@ export async function getMovieGenres() {
  * @param {string | null} [year=null] - Selected release year filter.
  * @param {string | null} [rating=null] - Minimum rating filter.
  * @param {string | null} [language=null] - Original language filter.
- * @param {string} [sort='popularity.desc'] - TMDB sort key.
+ * @param {string} [sort=DEFAULT_SORT] - TMDB sort key.
  * @param {string | null} [searchQuery=null] - Search query.
  * @param {boolean} [favoritesOnly=false] - Whether to load favorites only.
  * @returns {Promise<{
@@ -32,7 +35,7 @@ export async function getMovieGenres() {
  *   errorMessage?: string
  * }>} Fetch payload with metadata.
  */
-export async function fetchIMDBData(page, genre = null, year = null, rating = null, language = null, sort = 'popularity.desc', searchQuery = null, favoritesOnly = false) {
+export async function fetchIMDBData(page, genre = null, year = null, rating = null, language = null, sort = DEFAULT_SORT, searchQuery = null, favoritesOnly = false) {
   if (favoritesOnly) {
     const favorites = getFavorites();
     if (favorites.length === 0) {

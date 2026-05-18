@@ -23,6 +23,7 @@ export function renderMovies(element, data, genres) {
       const year = movie.release_date ? movie.release_date.split('-')[0] : 'n/a';
       const rating = movie.vote_average ? movie.vote_average.toFixed(1) : 'n/a';
 
+      // get genre names for each movie by matching its genre_ids to the full genre list
       let genreNames = '';
       if (movie.genre_ids && movie.genre_ids.length > 0) {
         genreNames = movie.genre_ids

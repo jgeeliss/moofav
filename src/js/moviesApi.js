@@ -1,5 +1,7 @@
-const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
-const TMDB_API_KEY = '0f0bf386975247347f8ced16ab3804e7';
+import appConfig from '../../config/config.json';
+
+const { tmdb } = appConfig;
+const { baseUrl: TMDB_BASE_URL, apiKey: TMDB_API_KEY, defaults: TMDB_DEFAULTS } = tmdb;
 
 /**
  * Builds a TMDB URL with API key and query parameters.
@@ -66,12 +68,12 @@ export async function fetchMovies(params) {
   }
 
   const discoverUrl = buildTmdbUrl('/discover/movie', {
-    'vote_count.gte': 1000,
-    with_original_language: params.language || 'en',
+    'vote_count.gte': TMDB_DEFAULTS.minVoteCount,
+    with_original_language: params.language || TMDB_DEFAULTS.language,
     with_genres: params.genre,
     primary_release_year: params.year,
     'vote_average.gte': params.rating,
-    sort_by: params.sort || 'popularity.desc',
+    sort_by: params.sort || TMDB_DEFAULTS.sortBy,
     page: params.page,
   });
 
