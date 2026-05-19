@@ -26,13 +26,13 @@ Jullie applicatie moet de volgende functies bevatten:
 
 ### Personalisatie
 - ~~Gebruikers kunnen favoriete locaties/gebeurtenissen opslaan~~
-- Data wordt bewaard tussen sessies
+- ~~Data wordt bewaard tussen sessies~~
 - Gebruikersvoorkeuren opslaan (zoals geolocatie, taalkeuze, themaswitcher, favorieten, gecachte API-data, ...)
 
 ### Gebruikerservaring
 - ~~Responsive design~~
 - ~~Visueel aantrekkelijke interface~~
-- Gebruiksvriendelijke navigatie
+- ~~Gebruiksvriendelijke navigatie~~
 
 ---
 
@@ -44,7 +44,7 @@ Jullie applicatie moet de volgende functies bevatten:
 ### GitHub Repository met:
 - Complete broncode met comments en bronvermelding
 
-- Een Github Repository wil zeggen dat meerdere commits gedaan worden naar aanleiding van het finale project. Per onderdeel én dagelijks.
+- ~~Een Github Repository wil zeggen dat meerdere commits gedaan worden naar aanleiding van het finale project. Per onderdeel én dagelijks.~~
 
 ### Werkende Demo
 - Code moet uitvoerbaar zijn aan de hand van de installatiehandleiding
@@ -56,7 +56,7 @@ Jullie applicatie moet de volgende functies bevatten:
 Jullie project wordt beoordeeld op:
 
 - **Functionaliteit:** Werkt alles zoals verwacht?
-- **Code kwaliteit:** Is de code leesbaar, goed georganiseerd en efficiënt?
+- **Code kwaliteit:** ~~Is de code leesbaar, goed georganiseerd en efficiënt?~~
 - **Technische vereisten:** Zijn alle vereiste concepten correct geïmplementeerd?
 - **Gebruikerservaring:** Is de interface intuïtief en aantrekkelijk?
 - **Structuur:** Zijn er meerdere commits gedaan in de Github repository? Is de folderstructuur netjes?

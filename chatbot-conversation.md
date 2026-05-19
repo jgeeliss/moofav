@@ -365,3 +365,42 @@ If you want, I can do a second pass to add small reusable typedefs (for `AppStat
 Made changes.
 
 Commit: [1b2a77f](https://github.com/jgeeliss/moofav/commit/1b2a77f)
+
+
+Q: can you update the location of the examples of the technical requirements now that my code has been restructured?
+
+A: I'll help you update the file paths in the README based on your new code structure. Let me first examine the current structure to map the old paths to the new ones.  
+
+Read [src](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/src)
+
+Read [README.md](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/README.md)
+
+Read [src/ui](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/src/ui)
+
+Read [src/data](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/src/data)
+
+Read [src/state](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/src/state)
+
+Now I'll update all the file path references from `src/js/` to the new structure. Based on your reorganized code:
+
+- `src/js/ui.js` → ui.js
+- `src/js/i18n.js` → i18n.js
+- `src/js/fetch.js` → fetch.js
+- `src/js/filters.js` → filters.js
+- `src/js/scrolling.js` → scrolling.js
+- `src/js/state.js` → state.js 
+
+Replacing 111 lines with 111 lines in [README.md](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/README.md)
+
+
+Done! I've updated all the file path references in your README to match your new code structure. The changes include:
+
+- **src/ui/** - Contains UI-related files: `ui.js`, `i18n.js`, `filters.js`, `scrolling.js`, `moviePopup.js`, `movieRenderer.js`
+- **src/data/** - Contains data management: `fetch.js`, `favorites.js`, `moviesApi.js`
+- **src/state/** - Contains state management: `state.js`
+
+All technical requirement examples now correctly reference files like ui.js, fetch.js, state.js, and the new refactored modules moviePopup.js and movieRenderer.js.
+
+Made changes.
+
+Commit: [TBD]()
