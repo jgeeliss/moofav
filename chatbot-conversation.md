@@ -404,3 +404,115 @@ All technical requirement examples now correctly reference files like ui.js, fet
 Made changes.
 
 Commit: [47bed22](https://github.com/jgeeliss/moofav/commit/47bed22)
+
+
+Q: can you turn the references to code examples in the readme into clickable links?
+
+A: I’ll convert the README’s file references into Markdown links so each code example path is directly clickable, including line anchors where you already included line numbers.
+
+Ran terminal command: $path = 'README.md';
+$content = Get-Content -Path $path -Raw;
+
+# Convert references with line or line-range, e.g. src/ui/ui.js:75-92
+$content = [regex]::Replace($content, '(?m)^(\s*-\s+)([A-Za-z0-9_./-]+\.[A-Za-z0-9]+):(\d+)(?:-(\d+))?(\s+\(.*\))$', {
+    param($m)
+    $prefix = $m.Groups[1].Value
+    $file = $m.Groups[2].Value
+    $start = $m.Groups[3].Value
+    $end = $m.Groups[4].Value
+    $suffix = $m.Groups[5].Value
+    if ([string]::IsNullOrEmpty($end)) {
+        $anchor = "#L$start"
+        $label = "$file:$start"
+    } else {
+        $anchor = "#L$start-L$end"
+        $label = "$file:$start-$end"
+    }
+    "$prefix[$label]($file$anchor)$suffix"
+});
+
+# Convert file-only references, e.g. index.html (HTML bestand)
+$content = [regex]::Replace($content, '(?m)^(\s*-\s+)([A-Za-z0-9_./-]+(?:/)?)(\s+\(.*\))$', {
+    param($m)
+    $prefix = $m.Groups[1].Value
+    $target = $m.Groups[2].Value
+    $suffix = $m.Groups[3].Value
+
+    # Skip if already markdown link
+    if ($target.StartsWith('[') -or $target.StartsWith('http')) { return $m.Value }
+
+    # Avoid linking markdown bullet text that is not a path
+    if (-not ($target -match '\.' -or $target.EndsWith('/'))) { return $m.Value }
+
+    $cleanTarget = $target.TrimEnd('/')
+    "$prefix[$target]($cleanTarget)$suffix"
+});
+
+Set-Content -Path $path -Value $content -Encoding UTF8;
+Write-Output 'README.md updated with clickable references.'
+
+Got last terminal command
+
+I’m checking the README now to confirm whether the automated conversion succeeded, then I’ll finish any remaining link formatting manually if needed.
+
+Read [README.md](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/README.md)
+
+I found the README still has plain path text, so I’m now applying a safer line-by-line transform that will only wrap code-reference bullets in Markdown links and keep the rest unchanged.
+
+Ran terminal command: $path = 'README.md';
+$lines = Get-Content -Path $path;
+$newLines = foreach ($line in $lines) {
+    if ($line -match '^(\s*-\s+)([A-Za-z0-9_./-]+\.[A-Za-z0-9]+):(\d+)(?:-(\d+))?(\s+\(.*\))$') {
+        $prefix = $Matches[1];
+        $file = $Matches[2];
+        $start = $Matches[3];
+        $end = $Matches[4];
+        $suffix = $Matches[5];
+        if ([string]::IsNullOrEmpty($end)) {
+            "$prefix[$file`:$start]($file#L$start)$suffix"
+        } else {
+            "$prefix[$file`:$start-$end]($file#L$start-L$end)$suffix"
+        }
+    }
+    elseif ($line -match '^(\s*-\s+)([A-Za-z0-9_./-]+/?)(\s+\(.*\))$') {
+        $prefix = $Matches[1];
+        $target = $Matches[2];
+        $suffix = $Matches[3];
+        if ($target.StartsWith('[') -or $target.StartsWith('http')) {
+            $line
+        }
+        elseif (($target -match '\.') -or $target.EndsWith('/')) {
+            $cleanTarget = $target.TrimEnd('/');
+            "$prefix[$target]($cleanTarget)$suffix"
+        }
+        else {
+            $line
+        }
+    }
+    else {
+        $line
+    }
+}
+Set-Content -Path $path -Value $newLines -Encoding UTF8;
+Write-Output 'Converted README references to markdown links.'
+
+Read [README.md](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/README.md)
+
+The links are now clickable throughout the technical-requirements section. I’m doing one small cleanup pass to replace a few garbled characters introduced by encoding so the README text stays readable.
+
+Generating patch (11 lines) in [README.md](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/README.md)
+
+Read [README.md](file:///c%3A/Users/jgeel/OneDrive/Projects/moofav/README.md#1-1), lines 1 to 40
+
+Updated. All code example references in README.md are now clickable Markdown links.
+
+What I changed:
+1. Converted path+line references like ui.js:75-92 into links like ui.js.
+2. Converted file/folder references like index.html, package.json, and src/css/ into clickable links.
+3. Cleaned up a few encoding-garbled characters in the same file while editing.
+
+If you want, I can also make the install commands in the same file clickable/copy-friendly as command links or code blocks in a second pass.
+
+Made changes.
+
+Commit: [TBD]()
