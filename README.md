@@ -29,8 +29,8 @@ Jullie project moet **ALLE** onderstaande JavaScript-concepten demonstreren. Per
     - [src/ui/filters.js:8-20](src/ui/filters.js#L8-L20) (setupThemeToggle: addEventListener op theme toggle)
     - [src/ui/filters.js:117-170](src/ui/filters.js#L117-L170) (setupSearchAndFilterListeners: addEventListener op search en filter dropdowns)
     - [src/ui/filters.js:72-90](src/ui/filters.js#L72-L90) (setupFavoritesToggle: addEventListener op favorites toggle)
-    - [src/ui/moviePopup.js:17-28](src/ui/moviePopup.js#L17-L28) (showMoviePopup: onclick handlers op popup buttons)
-    - [src/ui/moviePopup.js:17-21](src/ui/moviePopup.js#L17-L21) (showMoviePopup: addEventListener op popup backdrop)
+    - [src/ui/moviePopup.js:53-64](src/ui/moviePopup.js#L53-L64) (showMoviePopup: onclick handlers op popup buttons)
+    - [src/ui/moviePopup.js:66-70](src/ui/moviePopup.js#L66-L70) (showMoviePopup: addEventListener op popup backdrop)
     - [src/ui/movieRenderer.js:74-79](src/ui/movieRenderer.js#L74-L79) (renderMovies: addEventListener op movie items)
 
 ### Modern JavaScript
@@ -40,18 +40,15 @@ Jullie project moet **ALLE** onderstaande JavaScript-concepten demonstreren. Per
     - [src/state/state.js:17-29](src/state/state.js#L17-L29) (createInitialAppState: state object met vaste properties)
 - Template literals
     - [src/ui/ui.js:17-77](src/ui/ui.js#L17-L77) (renderApp: grote HTML template)
-    - [src/ui/moviePopup.js:17-29](src/ui/moviePopup.js#L17-L29) (showMoviePopup: template literal in popup.innerHTML)
+    - [src/ui/moviePopup.js:38-48](src/ui/moviePopup.js#L38-L48) (showMoviePopup: template literal in popup.innerHTML)
     - [src/ui/movieRenderer.js:42-56](src/ui/movieRenderer.js#L42-L56) (renderMovies: template literal voor movie items)
     - [src/data/moviesApi.js:11-23](src/data/moviesApi.js#L11-L23) (buildTmdbUrl: template literal in URL construction)
 - Iteratie over arrays
     - [src/ui/ui.js:125-132](src/ui/ui.js#L125-L132) (populateGenreOptions: forEach op genres)
     - [src/ui/ui.js:140-148](src/ui/ui.js#L140-L148) (populateYearOptions: for loop op jaren)
     - [src/ui/ui.js:157-164](src/ui/ui.js#L157-L164) (populateRatingOptions: for loop op ratings)
-    - [src/ui/moviePopup.js:17-19](src/ui/moviePopup.js#L17-L19) (showMoviePopup: forEach op genre_ids)
-    - [src/ui/movieRenderer.js:17-57](src/ui/movieRenderer.js#L17-L57) (renderMovies: map op results array)
-    - [src/ui/movieRenderer.js:29-34](src/ui/movieRenderer.js#L29-L34) (renderMovies: geneste map en filter op genre_ids)
+    - [src/ui/moviePopup.js:24-29](src/ui/moviePopup.js#L24-L29) (showMoviePopup: forEach op genre_ids)
 - Array methodes
-    - [src/ui/ui.js:125-132](src/ui/ui.js#L125-L132) (populateGenreOptions: .forEach() op genres array)
     - [src/data/favorites.js:38](src/data/favorites.js#L38) (removeFromFavorites: .filter() op favorites)
     - [src/data/favorites.js:26](src/data/favorites.js#L26) (addToFavorites/isFavorite: .includes() op array)
     - [src/ui/movieRenderer.js:17-57](src/ui/movieRenderer.js#L17-L57) (renderMovies: .map() op results)
