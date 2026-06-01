@@ -163,3 +163,10 @@ voor een productie build:
 ## Gebruikte bronnen
 - [chatlog met AI](./chatbot-conversation.md)
 - [Detect browser viewport size change using JavaScript's matchMedia method](https://stackoverflow.com/questions/76639699/how-to-detect-browser-viewport-size-change-using-javascripts-matchmedia-method)
+- [JavaScript module system for state management](https://krasimirtsonev.com/blog/article/javascript-module-system-for-state-management)
+- [Building an infinite scroll component with IntersectionObserver](https://dev.to/vikas2426/building-an-infinite-scroll-component-with-intersection-observer-17p1)
+- [The Movie Database API documentation](https://developer.themoviedb.org/docs/getting-started)
+- [Toggling localStorage item](https://stackoverflow.com/questions/64843820/toggling-localstorage-item)
+- [Web search bar implementation using JavaScript conditional flow](https://www.geeksforgeeks.org/javascript/web-search-bar-implementation-using-javascript-conditional-flow/)
+- [Using JavaScript to change website language](https://stackoverflow.com/questions/32008125/using-javascript-to-change-website-language)
+- [The best folder structure for JavaScript developers building large projects](https://medium.com/@dappinity_technologies/the-best-folder-structure-for-javascript-developers-building-large-projects-986bde27239d)
