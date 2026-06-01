@@ -2,7 +2,19 @@
 
 ## Projectbeschrijving en functionaliteiten
 
-Een webapplicatie die gebruikers in staat stelt om nieuwe films te ontdekken en hun favoriete films bij te houden. De app maakt gebruik van een externe API om filmgegevens op te halen en biedt een intuitieve interface voor gebruikers om hun filmcollectie te beheren.
+Moofav is een webapplicatie die gebruikers in staat stelt om nieuwe films te ontdekken en hun favoriete films bij te houden. De app maakt gebruik van een externe API (TMDB - The Movie Database API) om filmgegevens op te halen en biedt een intuïtieve interface voor gebruikers om hun instellingen en lievelingsfilms te beheren.
+
+__voornaamste functionaliteiten:__
+- Film ontdekken: gebruikers kunnen door een uitgebreide catalogus van films bladeren, gesorteerd op populariteit, release datum, genre, etc.
+- Film details: gebruikers kunnen op een film klikken om meer informatie te zien, zoals de synopsis.
+- Favorieten beheren: gebruikers kunnen films toevoegen aan hun favorietenlijst en deze lijst bekijken, bewerken of films ervan verwijderen.
+- Meertalige ondersteuning: gebruikers kunnen de taal van de interface wijzigen tussen Engels en Nederlands.
+- Thema toggle: gebruikers kunnen schakelen tussen een licht en donker thema voor een gepersonaliseerde ervaring.
+- Search: gebruikers kunnen zoeken naar specifieke films met behulp van een zoekbalk.
+- Filter opties: gebruikers kunnen de films filteren op genre, releasejaar, beoordeling, taal.
+- Sorteren: gebruikers kunnen de lijst van films sorteren op populariteit, release datum, beoordeling, etc.
+- Infinite scroll: gebruikers kunnen eindeloos scrollen door de filmcatalogus zonder handmatig pagina's te hoeven laden.
+- Mobile responsive: de app is geoptimaliseerd voor gebruik op zowel desktop als mobiele apparaten, met een vereenvoudigde interface voor kleinere schermen.
 
 ## Gebruikte API's met links
 - [The Movie Database (TMDb) API](https://developer.themoviedb.org/docs/getting-started)
