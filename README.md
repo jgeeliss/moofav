@@ -1,5 +1,20 @@
 ﻿# Moofav - Movie Favorites Webapp README
 
+## Inhoud
+
+- [Projectbeschrijving en functionaliteiten](#projectbeschrijving-en-functionaliteiten)
+- [Gebruikte API's met links](#gebruikte-apis-met-links)
+- [Technische vereisten](#technische-vereisten)
+    - [DOM manipulatie](#dom-manipulatie)
+    - [Modern JavaScript](#modern-javascript)
+    - [Data & API](#data--api)
+    - [Opslag & validatie](#opslag--validatie)
+    - [Styling & layout](#styling--layout)
+    - [Tooling & structuur](#tooling--structuur)
+- [Installatiehandleiding](#installatiehandleiding)
+- [Screenshots van de applicatie](#screenshots-van-de-applicatie)
+- [Gebruikte bronnen](#gebruikte-bronnen)
+
 ## Projectbeschrijving en functionaliteiten
 
 Moofav is een webapplicatie die gebruikers in staat stelt om nieuwe films te ontdekken en hun favoriete films bij te houden. De app maakt gebruik van een externe API (TMDB - The Movie Database API) om filmgegevens op te halen en biedt een intuïtieve interface voor gebruikers om hun instellingen en lievelingsfilms te beheren.
