@@ -9,8 +9,6 @@ Een webapplicatie die gebruikers in staat stelt om nieuwe films te ontdekken en 
 
 ## Technische vereisten
 
-Jullie project moet **ALLE** onderstaande JavaScript-concepten demonstreren. Per onderdeel moeten jullie in de README documenteren waar en hoe je deze concepten hebt toegepast:
-
 ### DOM manipulatie
 - Elementen selecteren
     - [src/ui/ui.js:99-116](src/ui/ui.js#L99-L116) (getAppElements: querySelector voor alle hoofd-UI elementen)
@@ -144,7 +142,7 @@ Jullie project moet **ALLE** onderstaande JavaScript-concepten demonstreren. Per
 
 ## Installatiehandleiding
 
-1. Clone de repository: `git clone <repository-url>`
+1. Clone de repository: `git clone https://github.com/jgeeliss/moofav.git`
 2. Navigeer naar de projectmap: `cd moofav`
 3. Installeer de dependencies: `npm install`
 4. Start de ontwikkelserver: `npm run dev`
