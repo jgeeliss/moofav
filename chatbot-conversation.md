@@ -114,7 +114,7 @@ Fixed! I removed the movieContainer.innerHTML = '' lines from all three dropdown
 Commit: [51fbfef](https://github.com/jgeeliss/moofav/commit/51fbfef)
 
 ---
-Q:do I still need to keep checking on isLoading & hasMorePagesToLoad before loading more content now that I'm using the IntersectObserver?
+Q: do I still need to keep checking on isLoading & hasMorePagesToLoad before loading more content now that I'm using the IntersectObserver?
 
 A: Yes, you still need both checks!
 
@@ -366,7 +366,7 @@ Made changes.
 
 Commit: [1b2a77f](https://github.com/jgeeliss/moofav/commit/1b2a77f)
 
-
+---
 Q: can you update the location of the examples of the technical requirements now that my code has been restructured?
 
 A: I'll help you update the file paths in the README based on your new code structure. Let me first examine the current structure to map the old paths to the new ones.  
@@ -405,7 +405,7 @@ Made changes.
 
 Commit: [47bed22](https://github.com/jgeeliss/moofav/commit/47bed22)
 
-
+---
 Q: can you turn the references to code examples in the readme into clickable links?
 
 A: I’ll convert the README’s file references into Markdown links so each code example path is directly clickable, including line anchors where you already included line numbers.
@@ -515,4 +515,4 @@ If you want, I can also make the install commands in the same file clickable/cop
 
 Made changes.
 
-Commit: [TBD]()
+Commit: [dbbe97b2eba63cd42fb43b385890be7a4c7eaf14](https://github.com/jgeeliss/moofav/commit/dbbe97b2eba63cd42fb43b385890be7a4c7eaf14)
