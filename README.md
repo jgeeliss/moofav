@@ -90,18 +90,15 @@ Jullie project moet **ALLE** onderstaande JavaScript-concepten demonstreren. Per
 ### Data & API
 - Fetch om data op te halen
     - [src/data/moviesApi.js:30-35](src/data/moviesApi.js#L30-L35) (fetchJson: fetch() met async/await)
-    - [src/data/moviesApi.js:89-95](src/data/moviesApi.js#L89-L95) (fetchMoviesByIds: fetch in map callback voor favorites)
-    - [src/data/moviesApi.js:61-82](src/data/moviesApi.js#L61-L82) (fetchMovies: async API chain)
 - JSON manipuleren en weergeven
     - [src/ui/i18n.js:1](src/ui/i18n.js#L1) (translationsData import uit dictionary.json)
-    - [src/data/favorites.js:5-6](src/data/favorites.js#L5-L6) (getFavorites: JSON.parse() van localStorage)
+    - [src/data/favorites.js:7](src/data/favorites.js#L7) (getFavorites: JSON.parse() van localStorage)
     - [src/data/favorites.js:15-16](src/data/favorites.js#L15-L16) (saveFavorites: JSON.stringify() naar localStorage)
     - [src/data/moviesApi.js:35](src/data/moviesApi.js#L35) (fetchJson: response.json())
-    - [src/ui/movieRenderer.js:10-80](src/ui/movieRenderer.js#L10-L80) (renderMovies: JSON data transformeren naar UI)
 
 ### Opslag & validatie
 - Formulier validatie
-    - [src/ui/filters.js:117](src/ui/filters.js#L117) (setupSearchAndFilterListeners: search input validatie met .trim())
+    - [src/ui/filters.js:141](src/ui/filters.js#L141) (setupSearchAndFilterListeners: search input validatie met .trim())
     - [src/data/favorites.js:24-30](src/data/favorites.js#L24-L30) (addToFavorites: .includes() validatie of favoriet bestaat)
     - [src/data/favorites.js:38-40](src/data/favorites.js#L38-L40) (removeFromFavorites: .filter() validatie op favorites)
 - Gebruik van LocalStorage
@@ -109,34 +106,37 @@ Jullie project moet **ALLE** onderstaande JavaScript-concepten demonstreren. Per
     - [src/ui/i18n.js:58](src/ui/i18n.js#L58) (setupLanguageToggle: localStorage.setItem('language', newLanguage))
     - [src/ui/filters.js:9](src/ui/filters.js#L9) (setupThemeToggle: localStorage.getItem('theme'))
     - [src/ui/filters.js:19](src/ui/filters.js#L19) (setupThemeToggle: localStorage.setItem('theme', isLight ? 'light' : 'dark'))
-    - [src/data/favorites.js:5](src/data/favorites.js#L5) (getFavorites: localStorage.getItem('moofav-favorites'))
-    - [src/data/favorites.js:15](src/data/favorites.js#L15) (saveFavorites: localStorage.setItem('moofav-favorites'))
+    - [src/data/favorites.js:6](src/data/favorites.js#L6) (getFavorites: localStorage.getItem('moofav-favorites'))
+    - [src/data/favorites.js:16](src/data/favorites.js#L16) (saveFavorites: localStorage.setItem('moofav-favorites'))
 
 ### Styling & layout
 - Basis HTML layout (flexbox of CSS grid kan hiervoor worden gebruikt)
-    - [index.html](index.html) (basis HTML structuur van de pagina)
+    - [src\css\style.css:119](src/css/style.css#L119) (styling van de movie matrix met flexbox)
 - Basis CSS
     - [src/css/style.css](src/css/style.css) (algemene styling van de app)
 - Gebruiksvriendelijke elementen (verwijderknoppen, icoontjes, ...)
-    - [src/css/style.css](src/css/style.css) (styling van de movie popup met knoppen en icoontjes)
+    - [src/css/style.css:88-112](src/css/style.css#L88-L112) (styling van de movie popup met knoppen en icoontjes)
     - [src/ui/ui.js:17-24](src/ui/ui.js#L17-L24) (renderApp: heart- en dot/circle-icoontjes voor UI toggles)
-    - [src/ui/filters.js:72-75](src/ui/filters.js#L72-L75) (setupFavoritesToggle: heart-icoon bij favorieten)
+    - [src/ui/filters.js:81](src/ui/filters.js#L81) (setupFavoritesToggle: heart-icoon bij favorieten)
 
 ### Tooling & structuur
 - Project is opgezet met Vite
-    - [package.json](package.json) (Vite dependencies)
-    - [src/main.js:1-22](src/main.js#L1-L22) (Vite entrypoint met ES module imports)
+    - [package.json:12](package.json#L12) (Vite dependencies)
 - Een correcte folderstructuur wordt aangehouden (gescheiden html, css en js files, src folder, dist folder, ...)
     - [index.html](index.html) (HTML bestand)
     - [src/css/](src/css) (CSS bestanden)
-    - [src/main.js:30-116](src/main.js#L30-L116) (orchestrator / bootstrap)
-    - [src/ui/ui.js:17-174](src/ui/ui.js#L17-L174) (UI rendering + element access)
-    - [src/state/state.js:1-40](src/state/state.js#L1-L40) (centrale state)
-    - [src/ui/i18n.js:1-68](src/ui/i18n.js#L1-L68) (taalbeheer)
-    - [src/ui/filters.js:1-170](src/ui/filters.js#L1-L170) (filters + toggles)
-    - [src/ui/scrolling.js:1-38](src/ui/scrolling.js#L1-L38) (infinite scroll)
-    - [src/data/fetch.js:1-90](src/data/fetch.js#L1-L90) (data orchestration)
-    - [src/data/moviesApi.js:1-95](src/data/moviesApi.js#L1-L95) (API requests)
+    - [src/main.js](src/main.js) (orchestrator / bootstrap)
+    - [src/ui/ui.js](src/ui/ui.js) (UI rendering + element access)
+    - [src/state/state.js](src/state/state.js) (centrale state)
+    - [src/ui/i18n.js](src/ui/i18n.js) (taalbeheer)
+    - [src/ui/filters.js](src/ui/filters.js) (filters + toggles)
+    - [src/ui/MoviePopup.js](src/ui/MoviePopup.js) (movie popup rendering + logic)
+    - [src/ui/MovieRenderer.js](src/ui/MovieRenderer.js) (movie grid rendering)
+    - [src/ui/scrolling.js](src/ui/scrolling.js) (infinite scroll)
+    - [src/ui/ui.js](src/ui/ui.js) (UI and navigation rendering + element access)
+    - [src/data/favorites.js](src/data/favorites.js) (favorites management)
+    - [src/data/fetch.js](src/data/fetch.js) (data orchestration)
+    - [src/data/moviesApi.js](src/data/moviesApi.js) (API requests)
 
 
 ## Installatiehandleiding
