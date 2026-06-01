@@ -156,7 +156,7 @@ voor een productie build:
 
 ![main screen (dark theme)](./screenshots/main.png "Main screen (dark theme)")
 ![main screen (light theme)](./screenshots/main-white.png "Main screen (light theme)")
-![movie popup](./screenshots/movie-popup.png "Movie popup")
+![movie popup](./screenshots/popup.png "Movie popup")
 ![favorites view](./screenshots/favorites.png "Favorites view")
 ![mobile view](./screenshots/mobile.png "Mobile view")
 
